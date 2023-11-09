@@ -1,11 +1,12 @@
+import Filter from "../components/Filter";
 import Table from "../components/Table";
 import data from "../test/data.json";
+import "../css/Transactions.css";
 import { useState, useEffect } from "react";
 
 export default function Transactions() {
   const headers = ["Date", "Description", "Amount", "Controls"];
   let [transactions, setTransactions] = useState([]);
-
   useEffect(() => {
     setTransactions(data);
   }, []);
@@ -14,5 +15,10 @@ export default function Transactions() {
     setTransactions(transactions.filter((row) => row.rowid !== rowid));
   };
 
-  return <Table headers={headers} data={transactions} onDel={onDel}></Table>;
+  return (
+    <section className="transactions">
+      <Filter data={data} filterdata={transactions} setData={setTransactions} />
+      <Table headers={headers} data={transactions} onDel={onDel} />
+    </section>
+  );
 }
