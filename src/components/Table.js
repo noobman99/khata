@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import "../css/Table.css";
+
 const TableHeader = (props) => {
   return (
     <thead>
@@ -33,12 +35,11 @@ const TableRow = (props) => {
       <td>{props.data.amount}</td>
       <td className="td-controls">
         <button className="table-control-button" onClick={deleteTransaction}>
-          DEL
+          <i class="fa-regular fa-trash-can" />
         </button>
-        <Link
-          to={"/edit/" + props.data.rowid}
-          className="table-control-button"
-        ></Link>
+        <Link to={"/edit/" + props.data.rowid} className="table-control-button">
+          <i class="fa-solid fa-pen" />
+        </Link>
       </td>
     </tr>
   );
@@ -46,7 +47,7 @@ const TableRow = (props) => {
 
 export default function Table(props) {
   return (
-    <table>
+    <table className="transaction-table">
       <TableHeader headers={props.headers} />
       <tbody>
         {props.data.map((row, index) => (
