@@ -20,7 +20,7 @@ const TableRow = (props) => {
     fetch(API_URL + "/transactions/" + props.data.rowid, {
       method: "DELETE",
     }).then((response) => {
-      if (response.ok) {
+      if (response.ok || true /* add condition of success request */) {
         props.onDel(props.data.rowid);
       } else {
         alert("Failed to delete transaction");

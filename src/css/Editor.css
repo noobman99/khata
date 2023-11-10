@@ -1,0 +1,131 @@
+.new-transaction {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.new-transaction-form {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  width: 35%;
+  margin: 2rem auto;
+  padding: 1.5em 3.5em;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.8em;
+  align-items: center;
+}
+
+.new-transaction-form-title {
+  font-size: 2.7em;
+}
+
+.new-transaction-form-input-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-transaction-form-input-label {
+  font-size: 1.4em;
+}
+
+.new-transaction-form input,
+.new-transaction-form textarea {
+  width: 69%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.25em 0.5em;
+  font-size: 1.1em;
+  font-family: "Rubik", monospace;
+}
+
+.new-transaction-form td textarea {
+  min-height: 5em;
+}
+
+.new-transaction-form .new-transaction-form-date {
+  font-family: monospace;
+  font-size: 1.15em;
+}
+
+.new-transaction-form-footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.new-transaction-form-button {
+  color: black;
+  font-size: 1.4em;
+  text-decoration: none;
+  border-radius: 10px;
+  border: 1px solid rgb(0, 0, 0);
+  padding: 0.5em 0.75em;
+  transition-duration: 0.5s;
+  font-family: monospace;
+  cursor: pointer;
+}
+
+.new-transaction-form-button:nth-child(1) {
+  background-color: rgb(255, 152, 152);
+}
+
+.new-transaction-form-button:nth-child(2) {
+  background-color: rgb(143, 255, 163);
+}
+
+.new-transaction-form-button:nth-child(1):hover {
+  background-color: rgb(255, 88, 88);
+}
+
+.new-transaction-form-button:nth-child(2):hover {
+  background-color: rgb(52, 255, 89);
+}
+
+@media screen and (max-width: 1200px) {
+  .new-transaction-form {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .new-transaction-form {
+    width: 50%;
+  }
+
+  .new-transaction-form-input-container {
+    flex-direction: column;
+    row-gap: 1em;
+    align-items: flex-start;
+  }
+
+  .new-transaction-form-input-label {
+    padding-left: 0.5em;
+  }
+
+  .new-transaction-form input,
+  textarea {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .new-transaction-form {
+    width: 60%;
+    padding: 1.5em 2em;
+    font-size: 0.88rem;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .new-transaction-form {
+    width: 75%;
+  }
+}

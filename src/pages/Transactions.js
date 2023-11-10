@@ -1,23 +1,27 @@
 import Filter from "../components/Filter";
 import Table from "../components/Table";
-import data from "../test/data.json";
 import "../css/Transactions.css";
 import { useState, useEffect } from "react";
 
-export default function Transactions() {
+export default function Transactions(props) {
   const headers = ["Date", "Description", "Amount", "Controls"];
-  let [transactions, setTransactions] = useState([]);
+  let [transactions, setTransactions] = useState(props.data);
+
   useEffect(() => {
-    setTransactions(data);
-  }, []);
+    setTransactions(props.data);
+  }, [props.data]);
 
   const onDel = (rowid) => {
-    setTransactions(transactions.filter((row) => row.rowid !== rowid));
+    props.setData(props.data.filter((row) => row.rowid !== rowid));
   };
 
   return (
     <section className="transactions">
-      <Filter data={data} filterdata={transactions} setData={setTransactions} />
+      <Filter
+        data={props.data}
+        filterdata={transactions}
+        setData={setTransactions}
+      />
       <Table headers={headers} data={transactions} onDel={onDel} />
     </section>
   );
