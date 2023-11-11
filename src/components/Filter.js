@@ -61,7 +61,7 @@ export default function Filter(props) {
   return (
     <form className="transaction-filters active">
       <div className="transaction-filter-container">
-        <div className="filter">
+        <div className="filter input-group">
           <input
             type="date"
             name="from"
@@ -71,7 +71,7 @@ export default function Filter(props) {
           />
           <label htmlFor="date">From</label>
         </div>
-        <div className="filter">
+        <div className="filter input-group">
           <input
             type="date"
             name="to"
@@ -81,7 +81,7 @@ export default function Filter(props) {
           />
           <label htmlFor="date">To</label>
         </div>
-        <div className="filter">
+        <div className="filter input-group">
           <input
             type="number"
             name="max"
@@ -91,7 +91,7 @@ export default function Filter(props) {
           />
           <label htmlFor="date">Max Cost</label>
         </div>
-        <div className="filter">
+        <div className="filter input-group">
           <input
             type="number"
             name="min"
@@ -103,10 +103,10 @@ export default function Filter(props) {
         </div>
       </div>
       <div className="transaction-filter-footer">
-        <button onClick={handleConfirm} className="confirm">
+        <button onClick={handleConfirm} className="button-blue">
           Apply
         </button>
-        <button onClick={handleClear} className="clear">
+        <button onClick={handleClear} className="button-red">
           Clear
         </button>
       </div>

@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../css/Editor.css";
 import { useEffect, useState } from "react";
 
@@ -35,6 +35,11 @@ export default function Editor(props) {
       ...data,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const redir = (e) => {
+    e.preventDefault();
+    navigate("/", { replace: true });
   };
 
   const submitForm = (e) => {
@@ -81,22 +86,18 @@ export default function Editor(props) {
   return (
     <div className="new-transaction">
       <form className="new-transaction-form">
-        <div className="new-transaction-form-title">New Transaction</div>
-        <div className="new-transaction-form-input-container">
-          <label className="new-transaction-form-input-label">Date</label>
+        <div className="title">{props.type} Transaction</div>
+        <div className="input-group">
           <input
-            className="new-transaction-form-date"
             type="date"
             name="date"
             onChange={handleChange}
             value={data.date}
             required
           />
+          <label>Date</label>
         </div>
-        <div className="new-transaction-form-input-container">
-          <label className="new-transaction-form-input-label">
-            Expenditure For
-          </label>
+        <div className="input-group">
           <input
             type="text"
             placeholder="Reason"
@@ -105,9 +106,9 @@ export default function Editor(props) {
             value={data.desc}
             required={true}
           />
+          <label>Expenditure For</label>
         </div>
-        <div className="new-transaction-form-input-container">
-          <label className="new-transaction-form-input-label">Amount</label>
+        <div className="input-group">
           <input
             type="number"
             step="0.01"
@@ -117,16 +118,13 @@ export default function Editor(props) {
             value={data.amount}
             required
           />
+          <label>Amount</label>
         </div>
         <div className="new-transaction-form-footer">
-          <Link to="/" className="new-transaction-form-button">
+          <button onClick={redir} className="button-red">
             Cancel
-          </Link>
-          <button
-            className="new-transaction-form-button"
-            type="submit"
-            onClick={submitForm}
-          >
+          </button>
+          <button className="button-blue" type="submit" onClick={submitForm}>
             Save
           </button>
         </div>

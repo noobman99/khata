@@ -6,8 +6,63 @@
 body {
   height: 100svh;
 }
-
 html {
   font-family: "Roboto", sans-serif;
   background: linear-gradient(45deg, #49a09d, #5f2c82);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 5px;
+}
+.input-group input {
+  padding: 8px 15px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0px 2px 15px rgba(0, 0, 0, 0.3);
+  border: none;
+  border-bottom: 2px solid white;
+  border-radius: 10px;
+  transition-duration: 0.5s;
+}
+.input-group input:focus {
+  outline: none;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 255, 255, 0.07),
+    rgba(255, 255, 255, 0.1)
+  );
+  box-shadow: inset 0px 2px 15px rgba(0, 0, 0, 0.1);
+  border-color: cyan;
+}
+.input-group label {
+  transition-duration: 0.5s;
+  color: rgb(211, 211, 211);
+}
+.input-group input:focus ~ label {
+  color: cyan;
+}
+
+.button-red,
+.button-blue {
+  display: block;
+  padding: 8px 15px;
+  color: whitesmoke;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition-duration: 0.2s;
+}
+.button-red:hover,
+.button-blue:hover {
+  transform: scale(1.1);
+}
+.button-red {
+  background-color: rgb(160, 73, 73);
+}
+.button-blue {
+  background-color: rgb(73, 132, 160);
 }
