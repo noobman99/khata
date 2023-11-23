@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import "../css/Editor.css";
 import { useEffect, useState } from "react";
+import Dropdown from "../components/Dropdown";
 
 export default function Editor(props) {
   const navigate = useNavigate();
@@ -11,7 +12,10 @@ export default function Editor(props) {
     date: date.toISOString().split("T")[0],
     reason: "",
     cost: "",
+    category: "",
   });
+
+  const categoryTypes = ["Food", "Travel", "Bevereges", "Shopping", "Others"];
 
   const API_URL = process.env.BACKEND_URL_WALLET;
   const post_path =
@@ -41,6 +45,8 @@ export default function Editor(props) {
     e.preventDefault();
     navigate("/", { replace: true });
   };
+
+  //console.log(data.category);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -120,6 +126,19 @@ export default function Editor(props) {
           />
           <label>Amount</label>
         </div>
+        <Dropdown
+          className="input-group"
+          label="Category"
+          list={categoryTypes}
+          data={data}
+          attribute="category"
+          onChange={(val) => {
+            setData({
+              ...data,
+              category: val,
+            });
+          }}
+        />
         <div className="new-transaction-form-footer">
           <button onClick={redir} className="button-red">
             Cancel
