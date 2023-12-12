@@ -107,9 +107,9 @@ export default function Editor(props) {
           <input
             type="text"
             placeholder="Reason"
-            name="desc"
+            name="reason"
             onChange={handleChange}
-            value={data.desc}
+            value={data.reason}
             required={true}
           />
           <label>Expenditure For</label>

@@ -31,14 +31,14 @@ const TableRow = (props) => {
   return (
     <tr>
       <td>{props.data.date}</td>
-      <td>{props.data.desc}</td>
+      <td>{props.data.reason}</td>
       <td>{props.data.amount}</td>
       <td className="td-controls">
         <button className="table-control-button" onClick={deleteTransaction}>
-          <i class="fa-regular fa-trash-can" />
+          <i className="fa-regular fa-trash-can" />
         </button>
         <Link to={"/edit/" + props.data.rowid} className="table-control-button">
-          <i class="fa-solid fa-pen" />
+          <i className="fa-solid fa-pen" />
         </Link>
       </td>
     </tr>
