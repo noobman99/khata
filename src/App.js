@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./css/App.css";
-import data from "./test/data.json";
+// import data from "./test/data.json";
 import Transactions from "./pages/Transactions";
 import Editor from "./pages/Editor";
 
@@ -10,10 +10,13 @@ function App() {
 
   useEffect(() => {
     console.log("Fetching data");
-    fetch("http://localhost:8080/")
+    fetch(process.env.REACT_APP_BACKEND)
       .then((response) => response.json())
       .then((data) => {
         setCoreData(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }, []);
 

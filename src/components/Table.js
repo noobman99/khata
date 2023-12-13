@@ -14,10 +14,10 @@ const TableHeader = (props) => {
 };
 
 const TableRow = (props) => {
-  const API_URL = process.env.BACKEND_URL_WALLET;
+  const API_URL = process.env.REACT_APP_BACKEND;
 
   const deleteTransaction = () => {
-    fetch(API_URL + "/transactions/" + props.data.rowid, {
+    fetch(API_URL + "/" + props.data.rowid, {
       method: "DELETE",
     }).then((response) => {
       if (response.ok || true /* add condition of success request */) {
@@ -50,9 +50,15 @@ export default function Table(props) {
     <table className="transaction-table">
       <TableHeader headers={props.headers} />
       <tbody>
-        {props.data.map((row, index) => (
-          <TableRow key={index} data={row} onDel={props.onDel} />
-        ))}
+        {props.data
+          .sort((a, b) => {
+            let c = new Date(a.date);
+            let d = new Date(b.date);
+            return d - c;
+          })
+          .map((row, index) => (
+            <TableRow key={index} data={row} onDel={props.onDel} />
+          ))}
       </tbody>
     </table>
   );
