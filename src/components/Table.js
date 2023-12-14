@@ -19,13 +19,20 @@ const TableRow = (props) => {
   const deleteTransaction = () => {
     fetch(API_URL + "/" + props.data.rowid, {
       method: "DELETE",
-    }).then((response) => {
-      if (response.ok || true /* add condition of success request */) {
-        props.onDel(props.data.rowid);
-      } else {
-        alert("Failed to delete transaction");
-      }
-    });
+    })
+      .then((response) => {
+        if (response.ok) {
+          props.onDel(props.data.rowid);
+        } else {
+          response.text().then((text) => {
+            alert(text);
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Failed to delete transaction. Check your internet connection.");
+      });
   };
 
   return (

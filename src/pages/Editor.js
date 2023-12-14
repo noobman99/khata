@@ -7,9 +7,8 @@ export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  let date = new Date();
   let [data, setData] = useState({
-    date: date.toISOString().split("T")[0],
+    date: new Date().toISOString().split("T")[0],
     reason: "",
     amount: "",
   });
@@ -58,29 +57,34 @@ export default function Editor(props) {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
-      .then((res) => res.json())
       .then((res) => {
-        // add condition of failed request
-        if (false) {
-          alert("Could not add transaction.");
+        if (res.ok) {
+          res.json().then((res_data) => {
+            let _transactions = props.data;
+            if (props.type === "edit") {
+              _transactions = props.data.filter(
+                (val) => val.rowid !== Number(id)
+              );
+            } else {
+              data.rowid = res_data.insertId;
+            }
+            _transactions.push(data);
+            props.setData(_transactions);
+          });
         } else {
-          // success -- add the new transaction to the data / change the existing data
-          let _transactions = props.data;
-          if (props.type === "edit") {
-            _transactions = props.data.filter(
-              (val) => val.rowid !== Number(id)
-            );
-          } else {
-            data.rowid = res.insertId;
-          }
-          _transactions.push(data);
-          props.setData(_transactions);
+          res.text().then((res_data) => {
+            alert(res_data);
+          });
         }
         navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);
-        alert("Could not add transaction.");
+        alert(
+          `Could not ${
+            props.type === "edit" ? "update" : "add"
+          } transaction. Please check your internet connection.`
+        );
       });
 
     // let transactions = props.data;
