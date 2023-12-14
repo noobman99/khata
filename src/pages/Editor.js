@@ -11,6 +11,7 @@ export default function Editor(props) {
     date: new Date().toISOString().split("T")[0],
     reason: "",
     amount: "",
+    category: "Other",
   });
 
   const categoryTypes = ["Food", "Travel", "Bevereges", "Shopping", "Others"];
@@ -133,19 +134,19 @@ export default function Editor(props) {
           />
           <label>Amount</label>
         </div>
-        {/* <Dropdown
+        <Dropdown
           className="input-group"
           label="Category"
           list={categoryTypes}
-          data={data}
-          attribute="category"
+          data={data.category}
+          name="category"
           onChange={(val) => {
             setData({
               ...data,
               category: val,
             });
           }}
-        /> */}
+        />
         <div className="new-transaction-form-footer">
           <button onClick={redir} className="button-red">
             Cancel

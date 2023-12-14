@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../css/Table.css";
+import { useEffect } from "react";
 
 const TableHeader = (props) => {
   return (
@@ -40,6 +41,7 @@ const TableRow = (props) => {
       <td>{props.data.date}</td>
       <td>{props.data.reason}</td>
       <td>{props.data.amount}</td>
+      <td>{props.data.category}</td>
       <td className="td-controls">
         <button className="table-control-button" onClick={deleteTransaction}>
           <i className="fa-regular fa-trash-can" />

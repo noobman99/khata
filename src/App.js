@@ -8,25 +8,6 @@ import Editor from "./pages/Editor";
 function App() {
   let [coreData, setCoreData] = useState([]);
 
-  const fetchData = () => {
-    fetch(process.env.REACT_APP_BACKEND)
-      .then((res) => {
-        if (res.ok) {
-          res.json().then((data) => {
-            setCoreData(data);
-          });
-        } else {
-          res.text().then((text) => {
-            alert(text);
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Failed to load your details. Check your internet connection.");
-      });
-  };
-
   useEffect(() => {
     console.log("Fetching data");
     let ignored = false;

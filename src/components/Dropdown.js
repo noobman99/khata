@@ -1,31 +1,31 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import "../css/Dropdown.css";
 
 export default function Dropdown(props) {
-  let [search, setSearch] = useState(props.data[props.attribute]);
-  let [focused, setFocused] = useState(false);
+  // let [search, setSearch] = useState(props.data[props.attribute]);
+  // let [focused, setFocused] = useState(false);
 
-  const onSearch = (e) => {
-    setSearch(e.target.value);
-  };
+  // const onSearch = (e) => {
+  //   setSearch(e.target.value);
+  // };
 
-  useEffect(() => {
-    if (focused) {
-      setSearch(props.data[props.attribute]);
-    }
-  }, [focused]);
+  // useEffect(() => {
+  //   if (focused) {
+  //     setSearch(props.data[props.attribute]);
+  //   }
+  // }, [focused]);
 
-  useEffect(() => {
-    setSearch(props.data[props.attribute]);
-  }, [props.data]);
+  // useEffect(() => {
+  //   setSearch(props.data[props.attribute]);
+  // }, [props.data]);
 
-  const onFocus = () => {
-    setFocused(true);
-  };
+  // const onFocus = () => {
+  //   setFocused(true);
+  // };
 
-  const onBlur = () => {
-    setFocused(false);
-  };
+  // const onBlur = () => {
+  //   setFocused(false);
+  // };
 
   const onClick = (e) => {
     props.onChange(e.target.textContent);
@@ -36,23 +36,22 @@ export default function Dropdown(props) {
       <div className="dropdown">
         <input
           type="text"
-          name="search"
-          value={focused ? search : props.data[props.attribute]}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={onSearch}
+          name={props.name}
+          value={props.data}
+          // value={focused ? search : props.data[props.attribute]}
+          // onFocus={onFocus}
+          // onBlur={onBlur}
+          // onChange={onSearch}
           autoComplete="off"
+          readOnly={true}
         />
-        <ul
-          className={"dropdown__list" + (focused ? " dropdown-active" : "")}
-          // style={props.style}
-        >
+        <ul className={"dropdown__list"}>
           {props.list
-            .filter((val) => {
-              return (
-                !search || val.toLowerCase().includes(search.toLowerCase())
-              );
-            })
+            // .filter((val) => {
+            //   return (
+            //     !search || val.toLowerCase().includes(search.toLowerCase())
+            //   );
+            // })
             .map((val, key) => {
               return (
                 <li
@@ -62,7 +61,6 @@ export default function Dropdown(props) {
                   }
                   key={key}
                   onClick={onClick}
-                  value={val}
                 >
                   {val}
                 </li>
