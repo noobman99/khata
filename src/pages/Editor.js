@@ -2,10 +2,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../css/Editor.css";
 import { useEffect, useState } from "react";
 import Dropdown from "../components/Dropdown";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
+  let { coreData, dispatch } = useCoreDataContext();
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -22,7 +24,7 @@ export default function Editor(props) {
 
   useEffect(() => {
     if (props.type === "edit") {
-      let req_val = props.data.filter((val) => val.rowid === Number(id))[0];
+      let req_val = coreData.filter((val) => val.rowid === Number(id))[0];
       if (req_val) {
         setData(req_val);
       } else {
@@ -30,7 +32,7 @@ export default function Editor(props) {
         navigate("/", { replace: true });
       }
     }
-  }, [id, props.type, navigate, props.data]);
+  }, [id, props.type, navigate, coreData]);
 
   const handleChange = (e) => {
     setData({
@@ -44,12 +46,8 @@ export default function Editor(props) {
     navigate("/", { replace: true });
   };
 
-  //console.log(data.category);
-
   const submitForm = (e) => {
     e.preventDefault();
-    // console.log(req_type, post_path);
-    // console.log(data);
 
     fetch(post_path, {
       method: req_type,
@@ -61,16 +59,20 @@ export default function Editor(props) {
       .then((res) => {
         if (res.ok) {
           res.json().then((res_data) => {
-            let _transactions = props.data;
+            let action;
             if (props.type === "edit") {
-              _transactions = props.data.filter(
-                (val) => val.rowid !== Number(id)
-              );
+              action = {
+                type: "Edit_Transaction",
+                payload: data,
+              };
             } else {
               data.rowid = res_data.insertId;
+              action = {
+                type: "Add_Transaction",
+                payload: data,
+              };
             }
-            _transactions.push(data);
-            props.setData(_transactions);
+            dispatch(action);
             navigate("/", { replace: true });
           });
         } else {
@@ -88,14 +90,6 @@ export default function Editor(props) {
           } transaction. Please check your internet connection.`
         );
       });
-
-    // let transactions = props.data;
-    // if (props.type === "edit") {
-    //   transactions = transactions.filter((val) => val.rowid !== Number(id));
-    // }
-    // transactions.push(data);
-    // props.setData(transactions);
-    // navigate("/", { replace: true });
   };
 
   return (

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import "../css/Table.css";
-import { useEffect } from "react";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 const TableHeader = (props) => {
   return (
@@ -17,13 +17,18 @@ const TableHeader = (props) => {
 const TableRow = (props) => {
   const API_URL = process.env.REACT_APP_BACKEND;
 
+  let { dispatch } = useCoreDataContext();
+  const onDel = (rowid) => {
+    dispatch({ type: "Del_Transaction", payload: rowid });
+  };
+
   const deleteTransaction = () => {
     fetch(API_URL + "/" + props.data.rowid, {
       method: "DELETE",
     })
       .then((response) => {
         if (response.ok) {
-          props.onDel(props.data.rowid);
+          onDel(props.data.rowid);
         } else {
           response.text().then((text) => {
             alert(text);

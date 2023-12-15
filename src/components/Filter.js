@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../css/Filter.css";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 const sieve = (data, filters) => {
   let filteredData = data;
@@ -38,6 +39,7 @@ export default function Filter(props) {
   const today = new Date().toISOString().split("T")[0];
   const basefilter = { min: 0, max: Infinity, from: "2023-01-01", to: today };
   let [filters, setFilters] = useState(basefilter);
+  let { coreData } = useCoreDataContext();
 
   const handleChange = (event) => {
     setFilters({ ...filters, [event.target.name]: event.target.value });
@@ -46,16 +48,16 @@ export default function Filter(props) {
   const handleClear = (e) => {
     e.preventDefault();
     setFilters(basefilter);
-    props.setData(props.data);
+    props.setData(coreData);
   };
 
   const handleConfirm = (e) => {
     e.preventDefault();
-    props.setData(sieve(props.data, filters));
+    props.setData(sieve(coreData, filters));
   };
 
   useEffect(() => {
-    props.setData(sieve(props.data, filters));
+    props.setData(sieve(coreData, filters));
   }, []);
 
   return (
