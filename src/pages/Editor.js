@@ -71,13 +71,14 @@ export default function Editor(props) {
             }
             _transactions.push(data);
             props.setData(_transactions);
+            navigate("/", { replace: true });
           });
         } else {
           res.text().then((res_data) => {
             alert(res_data);
+            navigate("/", { replace: true });
           });
         }
-        navigate("/", { replace: true });
       })
       .catch((err) => {
         console.log(err);
