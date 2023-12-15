@@ -19,7 +19,8 @@ export default function Editor(props) {
   const categoryTypes = ["Food", "Travel", "Bevereges", "Shopping", "Others"];
 
   const API_URL = process.env.REACT_APP_BACKEND;
-  const post_path = API_URL + (props.type === "edit" ? "/" + id : "");
+  const post_path =
+    API_URL + "/transacations" + (props.type === "edit" ? "/" + id : "");
   let req_type = props.type === "edit" ? "PUT" : "POST";
 
   useEffect(() => {

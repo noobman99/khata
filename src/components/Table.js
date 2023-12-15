@@ -23,7 +23,7 @@ const TableRow = (props) => {
   };
 
   const deleteTransaction = () => {
-    fetch(API_URL + "/" + props.data.rowid, {
+    fetch(API_URL + "/transacations/" + props.data.rowid, {
       method: "DELETE",
     })
       .then((response) => {

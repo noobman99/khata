@@ -3,7 +3,7 @@ import { createContext, useReducer, useEffect } from "react";
 export const CoreDataContext = createContext({});
 
 export const dataReducer = (state, action) => {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case "Set_Transactions":
       return action.payload;
@@ -24,10 +24,10 @@ export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, []);
 
   useEffect(() => {
-    console.log("Fetching data");
+    // console.log("Fetching data");
     let ignored = false;
 
-    fetch(process.env.REACT_APP_BACKEND)
+    fetch(process.env.REACT_APP_BACKEND + "/transacations")
       .then((res) => {
         if (!ignored) {
           if (res.ok) {
