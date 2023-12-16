@@ -1,4 +1,5 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer } from "react";
+import useTransactionsLoader from "../Hooks/useTransactionsLoader";
 
 export const CoreDataContext = createContext({});
 
@@ -23,35 +24,8 @@ export const dataReducer = (state, action) => {
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, []);
 
-  useEffect(() => {
-    // console.log("Fetching data");
-    let ignored = false;
-
-    fetch(process.env.REACT_APP_BACKEND + "/transacations")
-      .then((res) => {
-        if (!ignored) {
-          if (res.ok) {
-            res.json().then((data) => {
-              dispatch({ type: "Set_Transactions", payload: data });
-            });
-          } else {
-            res.text().then((text) => {
-              alert(text);
-            });
-          }
-        }
-      })
-      .catch((err) => {
-        if (!ignored) {
-          console.log(err);
-          alert("Failed to load your details. Check your internet connection.");
-        }
-      });
-
-    return () => {
-      ignored = true;
-    };
-  }, []);
+  let options = { outsideContext: true, dispatch };
+  useTransactionsLoader(options);
 
   return (
     <CoreDataContext.Provider value={{ coreData, dispatch }}>
