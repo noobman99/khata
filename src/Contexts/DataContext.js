@@ -47,35 +47,52 @@ export const dataReducer = (state, action) => {
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, dataTemplate);
 
+  const fetchTransactions = (user, toNavigate = false) => {
+    const API_URL = process.env.REACT_APP_BACKEND + "/transactions";
+
+    fetch(API_URL, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${user.autoken}`,
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((res_data) => {
+            dispatch({ type: "Set_Transactions", payload: res_data });
+          });
+        } else if (res.status === 800 || res.status === 801) {
+          res.json().then((res_data) => {
+            alert(res_data.error);
+            localStorage.removeItem(process.env.REACT_APP_TOKEN);
+            dispatch({ type: "Clear_Data" });
+          });
+        } else {
+          res.json().then((res_data) => {
+            alert(res_data.error);
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("Failed to load your details. Check your internet connection.");
+      });
+  };
+
   useEffect(() => {
     let user = localStorage.getItem(process.env.REACT_APP_TOKEN);
     if (user) {
+      user = JSON.parse(user);
+      dispatch({ type: "Set_User", payload: user });
       // load transactions
-      fetch(process.env.REACT_APP_BACKEND + "/transactions")
-        .then((res) => {
-          if (res.ok) {
-            res.json().then((data) => {
-              dispatch({ type: "Set_Transactions", payload: data });
-              dispatch({ type: "Set_User", payload: user });
-            });
-          } else if (res.status === 800) {
-            alert("Do not tamper with data manually.");
-            dispatch({ type: "Clear_Data" });
-          } else {
-            res.text().then((text) => {
-              alert(text);
-            });
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Failed to load your details. Check your internet connection.");
-        });
+      fetchTransactions(user);
     }
   }, []);
 
   return (
-    <CoreDataContext.Provider value={{ ...coreData, dispatch }}>
+    <CoreDataContext.Provider
+      value={{ ...coreData, dispatch, fetchTransactions }}
+    >
       {children}
     </CoreDataContext.Provider>
   );

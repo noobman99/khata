@@ -7,7 +7,7 @@ import useCoreDataContext from "../Hooks/useCoreDataContext";
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  let { transactions, dispatch } = useCoreDataContext();
+  let { transactions, user, dispatch } = useCoreDataContext();
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -18,9 +18,10 @@ export default function Editor(props) {
 
   const categoryTypes = ["Food", "Travel", "Bevereges", "Shopping", "Others"];
 
-  const API_URL = process.env.REACT_APP_BACKEND;
-  const post_path =
-    API_URL + "/transactions" + (props.type === "edit" ? "/" + id : "");
+  const API_URL =
+    process.env.REACT_APP_BACKEND +
+    "/transactions" +
+    (props.type === "edit" ? "/" + id : "");
   let req_type = props.type === "edit" ? "PUT" : "POST";
 
   useEffect(() => {
@@ -50,11 +51,12 @@ export default function Editor(props) {
   const submitForm = (e) => {
     e.preventDefault();
 
-    fetch(post_path, {
+    fetch(API_URL, {
       method: req_type,
       body: JSON.stringify(data),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
+        Authorization: `Bearer ${user.autoken}`,
       },
     })
       .then((res) => {
@@ -76,9 +78,15 @@ export default function Editor(props) {
             dispatch(action);
             navigate("/", { replace: true });
           });
+        } else if (res.status === 800 || res.status === 801) {
+          res.json().then((res_data) => {
+            alert(res_data.error);
+            localStorage.removeItem(process.env.REACT_APP_TOKEN);
+            dispatch({ type: "Clear_Data" });
+          });
         } else {
-          res.text().then((res_data) => {
-            alert(res_data);
+          res.json().then((res_data) => {
+            alert(res_data.error);
             navigate("/", { replace: true });
           });
         }

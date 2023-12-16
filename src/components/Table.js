@@ -15,23 +15,33 @@ const TableHeader = (props) => {
 };
 
 const TableRow = (props) => {
-  const API_URL = process.env.REACT_APP_BACKEND;
+  const API_URL =
+    process.env.REACT_APP_BACKEND + "/transactions/" + props.data.rowid;
 
-  let { dispatch } = useCoreDataContext();
+  let { user, dispatch } = useCoreDataContext();
   const onDel = (rowid) => {
     dispatch({ type: "Del_Transaction", payload: rowid });
   };
 
   const deleteTransaction = () => {
-    fetch(API_URL + "/transactions/" + props.data.rowid, {
+    fetch(API_URL, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user.autoken}`,
+      },
     })
-      .then((response) => {
-        if (response.ok) {
+      .then((res) => {
+        if (res.ok) {
           onDel(props.data.rowid);
+        } else if (res.status === 800 || res.status === 801) {
+          res.json().then((res_data) => {
+            alert(res_data.error);
+            localStorage.removeItem(process.env.REACT_APP_TOKEN);
+            dispatch({ type: "Clear_Data" });
+          });
         } else {
-          response.text().then((text) => {
-            alert(text);
+          res.json().then((res_data) => {
+            alert(res_data.error);
           });
         }
       })

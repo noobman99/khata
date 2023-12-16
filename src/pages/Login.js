@@ -1,9 +1,11 @@
 import { useState } from "react";
 import "../css/Login.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login(props) {
-  let { dispatch } = useCoreDataContext();
+  let { dispatch, fetchTransactions } = useCoreDataContext();
+  const navigate = useNavigate();
 
   let [signupData, setSignupData] = useState({
     username: "",
@@ -30,9 +32,9 @@ export default function Login(props) {
   };
 
   const handleSubmit = async (endpoint, data) => {
-    let path = process.env.REACT_APP_BACKEND + "/" + endpoint;
+    const API_URL = process.env.REACT_APP_BACKEND + "/" + endpoint;
 
-    fetch(path, {
+    fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -55,6 +57,10 @@ export default function Login(props) {
               process.env.REACT_APP_TOKEN,
               JSON.stringify(user)
             );
+            fetchTransactions(user);
+            setLoginData({ email: "", password: "" });
+            setSignupData({ email: "", password: "", username: "" });
+            navigate("/");
           });
         } else {
           res.json().then((data) => {
