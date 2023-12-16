@@ -6,12 +6,12 @@ import { useState, useEffect } from "react";
 
 export default function Transactions(props) {
   const headers = ["Date", "Description", "Amount", "Category", "Controls"];
-  let { coreData } = useCoreDataContext();
-  let [transactions, setTransactions] = useState(coreData);
+  let { transactions: coreTransactions } = useCoreDataContext();
+  let [transactions, setTransactions] = useState(coreTransactions);
 
   useEffect(() => {
-    setTransactions(coreData);
-  }, [coreData]);
+    setTransactions(coreTransactions);
+  }, [coreTransactions]);
 
   // const onDel = (rowid) => {
   //   props.setData(props.data.filter((row) => row.rowid !== rowid));

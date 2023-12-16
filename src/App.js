@@ -8,11 +8,12 @@ import useCoreDataContext from "./Hooks/useCoreDataContext";
 import Login from "./pages/Login";
 
 function App() {
-  let { coreData } = useCoreDataContext();
+  let { user, transactions } = useCoreDataContext();
+  console.log(user, transactions);
 
   return (
     <>
-      {coreData.length ? (
+      {true ? (
         <Router>
           <Routes>
             <Route path="/edit/:id" element={<Editor type="edit" />} />

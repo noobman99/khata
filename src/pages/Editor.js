@@ -7,7 +7,7 @@ import useCoreDataContext from "../Hooks/useCoreDataContext";
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  let { coreData, dispatch } = useCoreDataContext();
+  let { transactions, dispatch } = useCoreDataContext();
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -20,12 +20,12 @@ export default function Editor(props) {
 
   const API_URL = process.env.REACT_APP_BACKEND;
   const post_path =
-    API_URL + "/transacations" + (props.type === "edit" ? "/" + id : "");
+    API_URL + "/transactions" + (props.type === "edit" ? "/" + id : "");
   let req_type = props.type === "edit" ? "PUT" : "POST";
 
   useEffect(() => {
     if (props.type === "edit") {
-      let req_val = coreData.filter((val) => val.rowid === Number(id))[0];
+      let req_val = transactions.filter((val) => val.rowid === Number(id))[0];
       if (req_val) {
         setData(req_val);
       } else {
@@ -33,7 +33,7 @@ export default function Editor(props) {
         navigate("/", { replace: true });
       }
     }
-  }, [id, props.type, navigate, coreData]);
+  }, [id, props.type, navigate, transactions]);
 
   const handleChange = (e) => {
     setData({

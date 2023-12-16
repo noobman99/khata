@@ -39,7 +39,7 @@ export default function Filter(props) {
   const today = new Date().toISOString().split("T")[0];
   const basefilter = { min: 0, max: Infinity, from: "2023-01-01", to: today };
   let [filters, setFilters] = useState(basefilter);
-  let { coreData } = useCoreDataContext();
+  let { transactions } = useCoreDataContext();
 
   const handleChange = (event) => {
     setFilters({ ...filters, [event.target.name]: event.target.value });
@@ -48,16 +48,16 @@ export default function Filter(props) {
   const handleClear = (e) => {
     e.preventDefault();
     setFilters(basefilter);
-    props.setData(coreData);
+    props.setData(transactions);
   };
 
   const handleConfirm = (e) => {
     e.preventDefault();
-    props.setData(sieve(coreData, filters));
+    props.setData(sieve(transactions, filters));
   };
 
   useEffect(() => {
-    props.setData(sieve(coreData, filters));
+    props.setData(sieve(transactions, filters));
   }, []);
 
   return (

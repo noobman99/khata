@@ -1,7 +1,10 @@
 import { useState } from "react";
 import "../css/Login.css";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 export default function Login(props) {
+  let { dispatch } = useCoreDataContext();
+
   let [signupData, setSignupData] = useState({
     username: "",
     email: "",
@@ -40,22 +43,28 @@ export default function Login(props) {
         if (res.ok) {
           // response okay code
           res.json().then((data) => {
-            console.log("okay ", data);
+            let user = {
+              username: data.username,
+              autoken: data.token,
+            };
+            dispatch({
+              type: "Set_User",
+              payload: user,
+            });
+            localStorage.setItem(
+              process.env.REACT_APP_TOKEN,
+              JSON.stringify(user)
+            );
           });
-          return true;
         } else {
-          // response not okay code
           res.json().then((data) => {
-            console.log("not okay ", data);
-            alert("not okay");
+            alert(data.error);
           });
-          return false;
         }
       })
       .catch((err) => {
         alert("Something went wrong. Please check your internet connection.");
         console.log(err);
-        return true;
       });
   };
 
