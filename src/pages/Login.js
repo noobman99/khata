@@ -1,13 +1,16 @@
 import { useState } from "react";
 import "../css/Login.css";
 
-export default function Login() {
+export default function Login(props) {
   let [signupData, setSignupData] = useState({
     username: "",
     email: "",
     password: "",
   });
   let [loginData, setLoginData] = useState({ email: "", password: "" });
+
+  // mode = 1 => login else signup
+  let [mode, setMode] = useState(props.type === "login");
 
   const handleChangeSignup = (e) => {
     setSignupData({
@@ -71,24 +74,31 @@ export default function Login() {
   return (
     <div className="container">
       <div className="backbox">
-        <div className="loginMsg">
+        <div className={"loginMsg" + (mode ? "" : " visibility")}>
           <div className="textcontent">
             <p className="title">Don't have an account?</p>
             <p>Sign up to save all your graph.</p>
-            <button id="switch1">Sign Up</button>
+            <button id="switch1" onClick={() => setMode(0)}>
+              Sign Up
+            </button>
           </div>
         </div>
-        <div className="signupMsg visibility">
+        <div className={"signupMsg" + (mode ? " visibility" : "")}>
           <div className="textcontent">
             <p className="title">Have an account?</p>
             <p>Log in to see all your collection.</p>
-            <button id="switch2">LOG IN</button>
+            <button id="switch2" onClick={() => setMode(1)}>
+              LOG IN
+            </button>
           </div>
         </div>
       </div>
 
-      <div className="frontbox">
-        <form className="login" onSubmit={handleLogin}>
+      <div className={"frontbox" + (mode ? "" : " moving")}>
+        <form
+          className={"login" + (mode ? "" : " hide")}
+          onSubmit={handleLogin}
+        >
           <h2>LOG IN</h2>
           <div className="inputbox">
             <input
@@ -112,7 +122,10 @@ export default function Login() {
           <button type="submit">LOG IN</button>
         </form>
 
-        <form className="signup hide" onSubmit={handleSignup}>
+        <form
+          className={"signup" + (mode ? " hide" : "")}
+          onSubmit={handleSignup}
+        >
           <h2>SIGN UP</h2>
           <div className="inputbox">
             <input
