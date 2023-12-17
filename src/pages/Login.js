@@ -71,6 +71,10 @@ export default function Login(props) {
       .catch((err) => {
         alert("Something went wrong. Please check your internet connection.");
         console.log(err);
+      })
+      .finally(() => {
+        setLoginData({ ...loginData, password: "" });
+        setSignupData({ ...signupData, password: "" });
       });
   };
 
