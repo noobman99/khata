@@ -1,0 +1,46 @@
+nav {
+  height: var(--nav-height);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: var(--drak-gray);
+  box-shadow: 0 0 10px rgba(200, 200, 200, 0.299);
+}
+
+nav > .logo {
+  height: 100%;
+  width: auto;
+}
+
+.navigation {
+  height: 100%;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px;
+}
+
+.navigation > a {
+  height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  text-decoration: none;
+  color: var(--font-light-green);
+  border: 1px solid var(--font-light-green);
+  border-radius: 5px;
+  transition-duration: 0.3s;
+}
+
+.navigation > a:hover {
+  color: var(--font-green);
+  border-color: var(--font-green);
+  box-shadow: 0 0 2px var(--font-light-green), inset 0 0 2px var(--font-green);
+  scale: 1.05;
+}

@@ -6,6 +6,7 @@ import Transactions from "./pages/Transactions";
 import Editor from "./pages/Editor";
 import useCoreDataContext from "./Hooks/useCoreDataContext";
 import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 
 function App() {
   let { user, transactions } = useCoreDataContext();
@@ -15,13 +16,16 @@ function App() {
     <>
       {true ? (
         <Router>
-          <Routes>
-            <Route path="/edit/:id" element={<Editor type="edit" />} />
-            <Route path="/new" element={<Editor type="new" />} />
-            <Route path="/login" element={<Login type="login" />} />
-            <Route path="/signup" element={<Login type="signup" />} />
-            <Route path="/" element={<Transactions />} />
-          </Routes>
+          <Navbar />
+          <section className="khata-body">
+            <Routes>
+              <Route path="/edit/:id" element={<Editor type="edit" />} />
+              <Route path="/new" element={<Editor type="new" />} />
+              <Route path="/login" element={<Login type="login" />} />
+              <Route path="/signup" element={<Login type="signup" />} />
+              <Route path="/" element={<Transactions />} />
+            </Routes>
+          </section>
         </Router>
       ) : (
         <h2> Loading </h2>
