@@ -1,8 +1,9 @@
 import { createContext, useEffect, useReducer } from "react";
+import LoadTransactions from "../components/LoadTransactions";
 // import LoadTransactions from "../Hooks/LoadTransactions";
 
 const dataTemplate = {
-  user: { username: "", autoken: "" },
+  user: null,
   transactions: [],
 };
 
@@ -47,36 +48,8 @@ export const dataReducer = (state, action) => {
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, dataTemplate);
 
-  const fetchTransactions = (user, toNavigate = false) => {
-    const API_URL = process.env.REACT_APP_BACKEND + "/transactions";
-
-    fetch(API_URL, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${user.autoken}`,
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          res.json().then((res_data) => {
-            dispatch({ type: "Set_Transactions", payload: res_data });
-          });
-        } else if (res.status === 800 || res.status === 801) {
-          res.json().then((res_data) => {
-            alert(res_data.error);
-            localStorage.removeItem(process.env.REACT_APP_TOKEN);
-            dispatch({ type: "Clear_Data" });
-          });
-        } else {
-          res.json().then((res_data) => {
-            alert(res_data.error);
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        alert("Failed to load your details. Check your internet connection.");
-      });
+  const fetchTransactions = (user) => {
+    LoadTransactions(user, dispatch);
   };
 
   useEffect(() => {
