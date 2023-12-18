@@ -4,12 +4,25 @@
   box-sizing: border-box;
 }
 
+:root {
+  /* primary color and shades */
+  --background-gray: rgb(60, 60, 60);
+  --drak-gray: rgb(41, 41, 41);
+  /* secondary color and shades */
+  --background-green: rgb(50, 131, 66);
+  --font-green: rgb(98, 252, 160);
+  --font-light-green: rgb(208, 255, 226);
+  /* tertiary color and shades */
+  --cream: rgb(207, 201, 175);
+}
+
 body {
   min-height: 100svh;
 }
 html {
   font-family: "Roboto", sans-serif;
-  background: linear-gradient(45deg, #49a09d, #5f2c82);
+  /* background: linear-gradient(45deg, #49a09d, #5f2c82); */
+  background: var(--background-gray);
 }
 
 .input-group {
@@ -24,7 +37,7 @@ html {
   background: rgba(255, 255, 255, 0.1);
   box-shadow: inset 0px 2px 15px rgba(0, 0, 0, 0.3);
   border: none;
-  border-bottom: 2px solid white;
+  border-bottom: 2px solid var(--font-light-green);
   border-radius: 10px;
   transition-duration: 0.5s;
 }
@@ -32,18 +45,18 @@ html {
   outline: none;
   background: linear-gradient(
     0deg,
-    rgba(0, 255, 255, 0.07),
+    rgba(0, 255, 0, 0.07),
     rgba(255, 255, 255, 0.1)
   );
   box-shadow: inset 0px 2px 15px rgba(0, 0, 0, 0.1);
-  border-color: cyan;
+  border-color: var(--font-green);
 }
 .input-group label {
   transition-duration: 0.5s;
-  color: rgb(211, 211, 211);
+  color: var(--font-light-green);
 }
 .input-group input:focus ~ label {
-  color: cyan;
+  color: var(--font-green);
 }
 
 .button-red,
@@ -65,5 +78,5 @@ html {
   background-color: rgb(160, 73, 73);
 }
 .button-blue {
-  background-color: rgb(73, 132, 160);
+  background-color: var(--background-green);
 }

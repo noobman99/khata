@@ -5,22 +5,24 @@
   text-align: center;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   color: #fff;
+  border-radius: 15px 15px 10px 10px;
+  overflow: hidden;
 }
 
 .transaction-table thead {
-  background-color: #55608f;
+  background-color: var(--background-green);
 }
 
 .transaction-table tbody tr:nth-child(odd) {
-  background-color: rgba(255, 255, 255, 0.17);
+  background-color: rgba(255, 255, 255, 0.11);
 }
 
 .transaction-table tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.34);
+  background-color: rgba(255, 255, 255, 0.22);
 }
 
 .transaction-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.35);
 }
 
 .transaction-table th,

@@ -9,7 +9,7 @@
   display: inline-flex;
 }
 .backbox {
-  background-color: #404040;
+  background-color: var(--drak-gray);
   width: 100%;
   height: 80%;
   position: absolute;
@@ -19,7 +19,7 @@
 }
 
 .frontbox {
-  background-color: white;
+  background-color: var(--cream);
   border-radius: 20px;
   height: 100%;
   width: 50%;
@@ -82,7 +82,7 @@
 
 .login h2,
 .signup h2 {
-  color: #35b729;
+  color: var(--background-green);
   font-size: 22px;
 }
 
@@ -102,7 +102,7 @@
 
 .login button,
 .signup button {
-  background-color: #35b729;
+  background-color: var(--background-green);
   border: none;
   color: white;
   font-size: 12px;

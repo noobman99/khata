@@ -14,7 +14,7 @@
   flex-direction: column;
   align-items: center;
   color: white;
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
   border-radius: 15px;
   row-gap: 1.8em;
 }
