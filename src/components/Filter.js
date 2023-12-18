@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "../css/Filter.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 
@@ -37,7 +37,7 @@ const sieve = (data, filters) => {
 
 export default function Filter(props) {
   const today = new Date().toISOString().split("T")[0];
-  const basefilter = { min: 0, max: Infinity, from: "2023-01-01", to: today };
+  const basefilter = { min: 0, max: 99999, from: "2023-01-01", to: today };
   let [filters, setFilters] = useState(basefilter);
   let { transactions } = useCoreDataContext();
 
@@ -47,8 +47,9 @@ export default function Filter(props) {
 
   const handleClear = (e) => {
     e.preventDefault();
-    setFilters(basefilter);
+    props.setShow(false);
     props.setData(transactions);
+    setFilters(basefilter);
   };
 
   const handleConfirm = (e) => {
@@ -56,12 +57,8 @@ export default function Filter(props) {
     props.setData(sieve(transactions, filters));
   };
 
-  useEffect(() => {
-    props.setData(sieve(transactions, filters));
-  }, []);
-
   return (
-    <form className="transaction-filters active">
+    <form className={"transaction-filters" + (props.show ? " active" : "")}>
       <div className="transaction-filter-container">
         <div className="filter input-group">
           <input

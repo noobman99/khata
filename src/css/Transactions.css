@@ -1,3 +1,42 @@
-section.transactions {
-  padding-top: 20px;
+.ledger > header {
+  width: 100%;
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  color: var(--cream);
+}
+
+.ledger > header > .pseudo-header {
+  position: relative;
+}
+
+.ledger > header h1::first-letter {
+  color: var(--background-green);
+}
+
+.ledger > header button {
+  height: 45px;
+  width: 45px;
+  position: absolute;
+  left: calc(100% + 25px);
+  top: calc(50% - 20px);
+  background-color: var(--background-green);
+  font-size: 20px;
+  color: var(--light-cream);
+  border: 1px solid var(--font-light-green);
+  border-radius: 10px;
+  cursor: pointer;
+  transition-duration: 0.5s;
+}
+
+.ledger > header button:hover {
+  scale: 1.05;
+  filter: brightness(1.1);
+  box-shadow: 0 0 5px var(--font-green);
+}
+
+.ledger > header button.active {
+  color: white;
+  box-shadow: 0 0 5px var(--font-green);
 }

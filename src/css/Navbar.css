@@ -9,6 +9,7 @@ nav {
   justify-content: space-between;
   background-color: var(--drak-gray);
   box-shadow: 0 0 10px rgba(200, 200, 200, 0.299);
+  z-index: 5;
 }
 
 nav > .logo {

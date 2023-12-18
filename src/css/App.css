@@ -14,6 +14,7 @@
   --font-light-green: rgb(208, 255, 226);
   /* tertiary color and shades */
   --cream: rgb(207, 201, 175);
+  --light-cream: rgb(215, 214, 205);
   /* navbar height */
   --nav-height: 70px;
 }
@@ -80,6 +81,8 @@ section.khata-body {
 .button-red:hover,
 .button-blue:hover {
   transform: scale(1.1);
+  filter: brightness(1.1) contrast(1.1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 .button-red {
   background-color: rgb(160, 73, 73);
