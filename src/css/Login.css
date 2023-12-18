@@ -62,15 +62,21 @@
 
 .loginMsg button,
 .signupMsg button {
-  background-color: #404040;
-  border: 2px solid white;
-  border-radius: 10px;
-  color: white;
-  font-size: 12px;
-  box-sizing: content-box;
-  font-weight: 300;
   padding: 10px;
   margin-top: 20px;
+  background-color: var(--background-gray);
+  border: 2px solid var(--font-light-green);
+  border-radius: 10px;
+  color: var(--font-light-green);
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+.loginMsg button:hover,
+.signupMsg button:hover {
+  scale: 1.1;
+  color: var(--font-green);
+  border-color: var(--font-green);
+  filter: contrast(0.8);
 }
 
 /* front box content*/
@@ -83,21 +89,41 @@
 .login h2,
 .signup h2 {
   color: var(--background-green);
-  font-size: 22px;
+  font-size: 1.7em;
 }
 
 .inputbox {
-  margin-top: 30px;
+  margin-top: 35px;
+}
+.input-group {
+  position: relative;
 }
 .login input,
 .signup input {
   display: block;
   width: 100%;
-  height: 40px;
-  background-color: #f2f2f2;
-  border: none;
+  border-color: var(--background-gray);
   margin-bottom: 20px;
-  font-size: 12px;
+  font-size: 1em;
+}
+.login input:focus,
+.signup input:focus {
+  border-color: var(--drak-gray);
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.07),
+    rgba(255, 255, 255, 0.1)
+  );
+}
+.login .input-group > i,
+.signup .input-group > i {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 1em;
+  z-index: 2;
+  color: var(--background-gray);
+  cursor: pointer;
 }
 
 .login button,
@@ -105,23 +131,30 @@
   background-color: var(--background-green);
   border: none;
   color: white;
-  font-size: 12px;
-  font-weight: 300;
-  box-sizing: content-box;
-  padding: 10px;
+  font-size: 0.8em;
+  padding: 10px 20px;
   border-radius: 10px;
-  width: 60px;
   position: absolute;
   right: 30px;
   bottom: 30px;
   cursor: pointer;
+  transition-duration: 0.3s;
+}
+.login button:hover,
+.signup button:hover {
+  scale: 1.05;
+  filter: brightness(1.2) contrast(1.1);
 }
 
 /* Fade In & Out*/
 .login p {
   cursor: pointer;
-  color: #404040;
-  font-size: 15px;
+  color: var(--background-gray);
+  filter: brightness(1.1);
+  transition-duration: 0.3s;
+}
+.login p:hover {
+  color: var(--drak-gray);
 }
 
 .loginMsg,

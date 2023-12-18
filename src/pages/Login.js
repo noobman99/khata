@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../css/Login.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import { useNavigate } from "react-router-dom";
@@ -16,6 +16,21 @@ export default function Login(props) {
 
   // mode = 1 => login else signup
   let [mode, setMode] = useState(props.type === "login");
+  let [logPassVisible, setLogPassVisible] = useState(false);
+  let [signPassVisible, setSignPassVisible] = useState(false);
+  let loginPassRef = useRef(null);
+  let signupPassRef = useRef(null);
+
+  // switch from login to signup and vice-verse as well as clear data
+  const changeForm = (toMode) => {
+    setMode(toMode);
+    setLoginData({ email: "", password: "" });
+    setSignupData({
+      username: "",
+      email: "",
+      password: "",
+    });
+  };
 
   const handleChangeSignup = (e) => {
     setSignupData({
@@ -30,6 +45,45 @@ export default function Login(props) {
       [e.target.name]: e.target.value,
     });
   };
+
+  const toggleLogPass = () => {
+    setLogPassVisible(!logPassVisible);
+  };
+  const toggleSignPass = () => {
+    setSignPassVisible(!signPassVisible);
+  };
+
+  // sets password visible to false if click outside password input box
+  useEffect(() => {
+    const clickListener = (e) => {
+      if (e.target.parentNode !== loginPassRef.current) {
+        setLogPassVisible(false);
+      }
+    };
+
+    if (logPassVisible) {
+      window.addEventListener("click", clickListener);
+    }
+
+    return () => {
+      window.removeEventListener("click", clickListener);
+    };
+  }, [logPassVisible]);
+  useEffect(() => {
+    const clickListener = (e) => {
+      if (e.target.parentNode !== signupPassRef.current) {
+        setSignPassVisible(false);
+      }
+    };
+
+    if (signPassVisible) {
+      window.addEventListener("click", clickListener);
+    }
+
+    return () => {
+      window.removeEventListener("click", clickListener);
+    };
+  }, [signPassVisible]);
 
   const handleSubmit = async (endpoint, data) => {
     const API_URL = process.env.REACT_APP_BACKEND + "/" + endpoint;
@@ -96,8 +150,8 @@ export default function Login(props) {
         <div className={"loginMsg" + (mode ? "" : " visibility")}>
           <div className="textcontent">
             <p className="title">Don't have an account?</p>
-            <p>Sign up to save all your graph.</p>
-            <button id="switch1" onClick={() => setMode(0)}>
+            <p>Sign up to save all your records.</p>
+            <button id="switch1" onClick={() => changeForm(0)}>
               Sign Up
             </button>
           </div>
@@ -105,9 +159,9 @@ export default function Login(props) {
         <div className={"signupMsg" + (mode ? " visibility" : "")}>
           <div className="textcontent">
             <p className="title">Have an account?</p>
-            <p>Log in to see all your collection.</p>
-            <button id="switch2" onClick={() => setMode(1)}>
-              LOG IN
+            <p>Log in to see all your records.</p>
+            <button id="switch2" onClick={() => changeForm(1)}>
+              Log In
             </button>
           </div>
         </div>
@@ -118,24 +172,36 @@ export default function Login(props) {
           className={"login" + (mode ? "" : " hide")}
           onSubmit={handleLogin}
         >
-          <h2>LOG IN</h2>
+          <h2>Log In</h2>
           <div className="inputbox">
-            <input
-              type="text"
-              name="email"
-              placeholder="  EMAIL"
-              value={loginData.email}
-              onChange={handleChangeLogin}
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="  PASSWORD"
-              value={loginData.password}
-              onChange={handleChangeLogin}
-              required
-            />
+            <div className="input-group">
+              <input
+                type="text"
+                name="email"
+                placeholder=" Email"
+                value={loginData.email}
+                onChange={handleChangeLogin}
+                required
+              />
+            </div>
+            <div className="input-group" ref={loginPassRef}>
+              <input
+                type={logPassVisible ? "text" : "password"}
+                name="password"
+                placeholder=" Password"
+                value={loginData.password}
+                onChange={handleChangeLogin}
+                required
+              />
+              {loginData.password !== "" && (
+                <i
+                  className={
+                    "fa-solid fa-eye" + (!logPassVisible ? "-slash" : "")
+                  }
+                  onClick={toggleLogPass}
+                />
+              )}
+            </div>
           </div>
           <p>FORGET PASSWORD?</p>
           <button type="submit">LOG IN</button>
@@ -145,32 +211,46 @@ export default function Login(props) {
           className={"signup" + (mode ? " hide" : "")}
           onSubmit={handleSignup}
         >
-          <h2>SIGN UP</h2>
+          <h2>Sign Up</h2>
           <div className="inputbox">
-            <input
-              type="text"
-              name="username"
-              placeholder="  USERNAME"
-              value={signupData.username}
-              onChange={handleChangeSignup}
-              required
-            />
-            <input
-              type="text"
-              name="email"
-              placeholder="  EMAIL"
-              value={signupData.email}
-              onChange={handleChangeSignup}
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              placeholder="  PASSWORD"
-              value={signupData.password}
-              onChange={handleChangeSignup}
-              required
-            />
+            <div className="input-group">
+              <input
+                type="text"
+                name="username"
+                placeholder=" Username"
+                value={signupData.username}
+                onChange={handleChangeSignup}
+                required
+              />
+            </div>
+            <div className="input-group">
+              <input
+                type="text"
+                name="email"
+                placeholder=" Email"
+                value={signupData.email}
+                onChange={handleChangeSignup}
+                required
+              />
+            </div>
+            <div className="input-group" ref={signupPassRef}>
+              <input
+                type={signPassVisible ? "text" : "password"}
+                name="password"
+                placeholder=" Password"
+                value={signupData.password}
+                onChange={handleChangeSignup}
+                required
+              />
+              {signupData.password !== "" && (
+                <i
+                  className={
+                    "fa-solid fa-eye" + (!signPassVisible ? "-slash" : "")
+                  }
+                  onClick={toggleSignPass}
+                />
+              )}
+            </div>
           </div>
           <button type="submit">SIGN UP</button>
         </form>
