@@ -1,7 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import "./css/App.css";
-// import data from "./test/data.json";
 import Transactions from "./pages/Transactions";
 import Editor from "./pages/Editor";
 import useCoreDataContext from "./Hooks/useCoreDataContext";
@@ -19,11 +23,30 @@ function App() {
           <Navbar />
           <section className="khata-body">
             <Routes>
-              <Route path="/edit/:id" element={<Editor type="edit" />} />
-              <Route path="/new" element={<Editor type="new" />} />
-              <Route path="/login" element={<Login type="login" />} />
-              <Route path="/signup" element={<Login type="signup" />} />
-              <Route path="/" element={<Transactions />} />
+              <Route
+                path="/edit/:id"
+                element={
+                  user ? <Editor type="edit" /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/new"
+                element={
+                  user ? <Editor type="new" /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/login"
+                element={!user ? <Login type="login" /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/signup"
+                element={!user ? <Login type="signup" /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/"
+                element={user ? <Transactions /> : <Navigate to="/login" />}
+              />
             </Routes>
           </section>
         </Router>

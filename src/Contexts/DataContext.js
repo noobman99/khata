@@ -1,6 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
 import LoadTransactions from "../components/LoadTransactions";
-// import LoadTransactions from "../Hooks/LoadTransactions";
 
 const dataTemplate = {
   user: null,
@@ -57,7 +56,7 @@ export const CoreDataContextProvider = ({ children }) => {
     if (user) {
       user = JSON.parse(user);
       dispatch({ type: "Set_User", payload: user });
-      // load transactions
+      // load transactions from server
       fetchTransactions(user);
     }
   }, []);
