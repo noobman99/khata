@@ -37,7 +37,7 @@ const sieve = (data, filters) => {
 
 export default function Filter(props) {
   const today = new Date().toISOString().split("T")[0];
-  const basefilter = { min: 0, max: 99999, from: "2023-01-01", to: today };
+  const basefilter = { min: "", max: "", from: "2023-01-01", to: today };
   let [filters, setFilters] = useState(basefilter);
   let { transactions } = useCoreDataContext();
 
@@ -87,6 +87,7 @@ export default function Filter(props) {
             id="max"
             onChange={handleChange}
             value={filters.max}
+            placeholder="Max Cost"
           />
           <label htmlFor="date">Max Cost</label>
         </div>
@@ -97,6 +98,7 @@ export default function Filter(props) {
             id="min"
             onChange={handleChange}
             value={filters.min}
+            placeholder="Min Cost"
           />
           <label htmlFor="date">Min Cost</label>
         </div>
