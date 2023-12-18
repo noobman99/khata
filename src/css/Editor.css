@@ -1,27 +1,28 @@
 .new-transaction {
-  min-height: 100vh;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+}
+
+.new-transaction > header {
+  text-align: center;
+  margin: 20px 0;
+  font-size: var(--header-size);
+  color: var(--cream);
+}
+
+.new-transaction > header span {
+  color: var(--background-green);
 }
 
 .new-transaction-form {
-  width: 35%;
-  margin: 2rem auto;
-  padding: 1.5em 3.5em;
+  width: 30%;
+  margin: 0 auto;
+  margin-top: 2.2em;
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
-  background: rgba(255, 255, 255, 0.06);
   border-radius: 15px;
   row-gap: 1.8em;
-}
-
-.new-transaction .title {
-  font-size: 2.5em;
-  text-transform: capitalize;
 }
 
 .new-transaction-form .input-group {
@@ -47,8 +48,7 @@
   width: 100%;
   display: flex;
   justify-content: space-around;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
+  margin-top: 0.5rem 0;
 }
 
 .new-transaction-form-footer button {

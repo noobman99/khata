@@ -103,8 +103,13 @@ export default function Editor(props) {
 
   return (
     <div className="new-transaction">
+      <header>
+        <h1>
+          <span>{props.type.slice(0, 1).toUpperCase()}</span>
+          {props.type.slice(1)} <span>T</span>ransaction
+        </h1>
+      </header>
       <form className="new-transaction-form" onSubmit={submitForm}>
-        <div className="title">{props.type} Transaction</div>
         <div className="input-group">
           <input
             type="date"

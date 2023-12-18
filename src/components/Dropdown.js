@@ -45,6 +45,7 @@ export default function Dropdown(props) {
           autoComplete="off"
           readOnly={true}
         />
+        <i className="fa-sharp fa-solid fa-caret-down downarrow" />
         <ul className={"dropdown__list"}>
           {props.list
             // .filter((val) => {
@@ -57,7 +58,7 @@ export default function Dropdown(props) {
                 <li
                   className={
                     "dropdown__list-item" +
-                    (val === props.data[props.attribute] ? " select-value" : "")
+                    (val === props.data ? " selected" : "")
                   }
                   key={key}
                   onClick={onClick}

@@ -15,8 +15,9 @@
   /* tertiary color and shades */
   --cream: rgb(207, 201, 175);
   --light-cream: rgb(215, 214, 205);
-  /* navbar height */
+  /* size variables */
   --nav-height: 70px;
+  --header-size: 2em;
 }
 
 body {
@@ -29,7 +30,8 @@ html {
 }
 
 section.khata-body {
-  padding: var(--nav-height) 0;
+  padding-top: var(--nav-height);
+  padding-bottom: calc(var(--nav-height) / 2);
   width: 100%;
 }
 
