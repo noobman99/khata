@@ -7,86 +7,69 @@ export default function Login(props) {
   let { dispatch, fetchTransactions } = useCoreDataContext();
   const navigate = useNavigate();
 
-  let [signupData, setSignupData] = useState({
+  let [userData, setUserData] = useState({
     username: "",
     email: "",
     password: "",
   });
-  let [loginData, setLoginData] = useState({ email: "", password: "" });
 
   // mode = 1 => login else signup
   let [mode, setMode] = useState(props.type === "login");
-  let [logPassVisible, setLogPassVisible] = useState(false);
-  let [signPassVisible, setSignPassVisible] = useState(false);
-  let loginPassRef = useRef(null);
-  let signupPassRef = useRef(null);
+  let [passVisible, setPassVisible] = useState(false);
+  let passRef = useRef(null);
 
   // switch from login to signup and vice-verse as well as clear data
   const changeForm = (toMode) => {
     setMode(toMode);
-    setLoginData({ email: "", password: "" });
-    setSignupData({
+    setUserData({
       username: "",
       email: "",
       password: "",
     });
   };
 
-  const handleChangeSignup = (e) => {
-    setSignupData({
-      ...signupData,
+  const handleInputChange = (e) => {
+    setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleChangeLogin = (e) => {
-    setLoginData({
-      ...loginData,
-      [e.target.name]: e.target.value,
-    });
+  const togglePassVisible = () => {
+    setPassVisible(!passVisible);
   };
 
-  const toggleLogPass = () => {
-    setLogPassVisible(!logPassVisible);
-  };
-  const toggleSignPass = () => {
-    setSignPassVisible(!signPassVisible);
-  };
-
-  // sets password visible to false if click outside password input box
+  // set pass visible to false if clicked anywhere except the password input.
   useEffect(() => {
     const clickListener = (e) => {
-      if (e.target.parentNode !== loginPassRef.current) {
-        setLogPassVisible(false);
+      console.log(e.target.parentNode, passRef.current);
+      if (e.target.parentNode !== passRef.current) {
+        setPassVisible(false);
       }
     };
 
-    if (logPassVisible) {
+    if (passVisible) {
       window.addEventListener("click", clickListener);
     }
 
     return () => {
       window.removeEventListener("click", clickListener);
     };
-  }, [logPassVisible]);
-  useEffect(() => {
-    const clickListener = (e) => {
-      if (e.target.parentNode !== signupPassRef.current) {
-        setSignPassVisible(false);
-      }
-    };
+  }, [passVisible]);
 
-    if (signPassVisible) {
-      window.addEventListener("click", clickListener);
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    return () => {
-      window.removeEventListener("click", clickListener);
-    };
-  }, [signPassVisible]);
-
-  const handleSubmit = async (endpoint, data) => {
+    const endpoint = mode ? "login" : "signup";
     const API_URL = process.env.REACT_APP_BACKEND + "/" + endpoint;
+    let data;
+
+    if (mode) {
+      data = { email: userData.email, password: userData.password };
+    } else {
+      data = { ...userData };
+    }
+    console.log(data);
 
     fetch(API_URL, {
       method: "POST",
@@ -112,36 +95,25 @@ export default function Login(props) {
               JSON.stringify(user)
             );
             fetchTransactions(user);
-            setLoginData({ email: "", password: "" });
-            setSignupData({ email: "", password: "", username: "" });
+            setUserData({
+              username: "",
+              email: "",
+              password: "",
+            });
             navigate("/");
           });
         } else {
           res.json().then((data) => {
             alert(data.error);
+            setUserData({ ...userData, password: "" });
           });
         }
       })
       .catch((err) => {
         alert("Something went wrong. Please check your internet connection.");
         console.log(err);
-      })
-      .finally(() => {
-        setLoginData({ ...loginData, password: "" });
-        setSignupData({ ...signupData, password: "" });
+        setUserData({ ...userData, password: "" });
       });
-  };
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    handleSubmit("login", loginData);
-  };
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-
-    handleSubmit("signup", signupData);
   };
 
   return (
@@ -168,92 +140,94 @@ export default function Login(props) {
       </div>
 
       <div className={"frontbox" + (mode ? "" : " moving")}>
-        <form
-          className={"login" + (mode ? "" : " hide")}
-          onSubmit={handleLogin}
-        >
-          <h2>Log In</h2>
-          <div className="inputbox">
-            <div className="input-group">
-              <input
-                type="text"
-                name="email"
-                placeholder=" Email"
-                value={loginData.email}
-                onChange={handleChangeLogin}
-                required
-              />
-            </div>
-            <div className="input-group" ref={loginPassRef}>
-              <input
-                type={logPassVisible ? "text" : "password"}
-                name="password"
-                placeholder=" Password"
-                value={loginData.password}
-                onChange={handleChangeLogin}
-                required
-              />
-              {loginData.password !== "" && (
-                <i
-                  className={
-                    "fa-solid fa-eye" + (!logPassVisible ? "-slash" : "")
-                  }
-                  onClick={toggleLogPass}
+        {mode ? (
+          <form
+            className={"login" + (mode ? "" : " hide")}
+            onSubmit={handleSubmit}
+          >
+            <h2>Log In</h2>
+            <div className="inputbox">
+              <div className="input-group">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder=" Email"
+                  value={userData.email}
+                  onChange={handleInputChange}
+                  required
                 />
-              )}
-            </div>
-          </div>
-          <p>FORGET PASSWORD?</p>
-          <button type="submit">LOG IN</button>
-        </form>
-
-        <form
-          className={"signup" + (mode ? " hide" : "")}
-          onSubmit={handleSignup}
-        >
-          <h2>Sign Up</h2>
-          <div className="inputbox">
-            <div className="input-group">
-              <input
-                type="text"
-                name="username"
-                placeholder=" Username"
-                value={signupData.username}
-                onChange={handleChangeSignup}
-                required
-              />
-            </div>
-            <div className="input-group">
-              <input
-                type="text"
-                name="email"
-                placeholder=" Email"
-                value={signupData.email}
-                onChange={handleChangeSignup}
-                required
-              />
-            </div>
-            <div className="input-group" ref={signupPassRef}>
-              <input
-                type={signPassVisible ? "text" : "password"}
-                name="password"
-                placeholder=" Password"
-                value={signupData.password}
-                onChange={handleChangeSignup}
-                required
-              />
-              {signupData.password !== "" && (
-                <i
-                  className={
-                    "fa-solid fa-eye" + (!signPassVisible ? "-slash" : "")
-                  }
-                  onClick={toggleSignPass}
+              </div>
+              <div className="input-group" ref={passRef}>
+                <input
+                  type={passVisible ? "text" : "password"}
+                  name="password"
+                  placeholder=" Password"
+                  value={userData.password}
+                  onChange={handleInputChange}
+                  required
                 />
-              )}
+                {userData.password !== "" && (
+                  <i
+                    className={
+                      "fa-solid fa-eye" + (!passVisible ? "-slash" : "")
+                    }
+                    onClick={togglePassVisible}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-          <button type="submit">SIGN UP</button>
-        </form>
+            <p>FORGET PASSWORD?</p>
+            <button type="submit">LOG IN</button>
+          </form>
+        ) : (
+          <form
+            className={"signup" + (mode ? " hide" : "")}
+            onSubmit={handleSubmit}
+          >
+            <h2>Sign Up</h2>
+            <div className="inputbox">
+              <div className="input-group">
+                <input
+                  type="text"
+                  name="username"
+                  placeholder=" Username"
+                  value={userData.username}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="input-group">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder=" Email"
+                  value={userData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              <div className="input-group" ref={passRef}>
+                <input
+                  type={passVisible ? "text" : "password"}
+                  name="password"
+                  placeholder=" Password"
+                  value={userData.password}
+                  onChange={handleInputChange}
+                  required
+                />
+                {userData.password !== "" && (
+                  <i
+                    className={
+                      "fa-solid fa-eye" + (!passVisible ? "-slash" : "")
+                    }
+                    onClick={togglePassVisible}
+                  />
+                )}
+              </div>
+            </div>
+            <button type="submit">SIGN UP</button>
+          </form>
+        )}
       </div>
     </div>
   );
