@@ -13,12 +13,12 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 
 function App() {
-  let { user, transactions } = useCoreDataContext();
-  console.log(user, transactions);
+  let { user, transactions, isLoading } = useCoreDataContext();
+  console.log(user, transactions, isLoading);
 
   return (
     <>
-      {true ? (
+      {!isLoading ? (
         <Router>
           <Navbar />
           <section className="khata-body">

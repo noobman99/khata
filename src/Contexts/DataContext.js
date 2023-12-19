@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import LoadTransactions from "../components/LoadTransactions";
 
 const dataTemplate = {
@@ -46,30 +46,38 @@ export const dataReducer = (state, action) => {
 
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, dataTemplate);
+  let [isLoading, setIsLoading] = useState(true);
 
   const fetchTransactions = (user, config) => {
     LoadTransactions(user, dispatch, config);
   };
 
+  console.log(isLoading);
+
   useEffect(() => {
-    let effectState = { ignore: false };
+    const onComplete = () => {
+      setIsLoading(false);
+    };
+    let config = { ignore: false, onComplete };
 
     let user = localStorage.getItem(process.env.REACT_APP_TOKEN);
     if (user) {
       user = JSON.parse(user);
       dispatch({ type: "Set_User", payload: user });
       // load transactions from server
-      fetchTransactions(user, effectState);
+      fetchTransactions(user, config);
+    } else {
+      onComplete();
     }
 
     return () => {
-      effectState.ignore = true;
+      config.ignore = true;
     };
   }, []);
 
   return (
     <CoreDataContext.Provider
-      value={{ ...coreData, dispatch, fetchTransactions }}
+      value={{ ...coreData, dispatch, fetchTransactions, isLoading }}
     >
       {children}
     </CoreDataContext.Provider>
