@@ -47,18 +47,24 @@ export const dataReducer = (state, action) => {
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, dataTemplate);
 
-  const fetchTransactions = (user) => {
-    LoadTransactions(user, dispatch);
+  const fetchTransactions = (user, config) => {
+    LoadTransactions(user, dispatch, config);
   };
 
   useEffect(() => {
+    let effectState = { ignore: false };
+
     let user = localStorage.getItem(process.env.REACT_APP_TOKEN);
     if (user) {
       user = JSON.parse(user);
       dispatch({ type: "Set_User", payload: user });
       // load transactions from server
-      fetchTransactions(user);
+      fetchTransactions(user, effectState);
     }
+
+    return () => {
+      effectState.ignore = true;
+    };
   }, []);
 
   return (
