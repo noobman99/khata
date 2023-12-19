@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../css/Login.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login(props) {
   let { dispatch, fetchTransactions } = useCoreDataContext();
@@ -94,7 +95,10 @@ export default function Login(props) {
               process.env.REACT_APP_TOKEN,
               JSON.stringify(user)
             );
-            fetchTransactions(user);
+            fetchTransactions(user, {
+              ignore: false,
+              onComplete: () => toast.success("Welcome " + user.username),
+            });
             setUserData({
               username: "",
               email: "",
@@ -104,13 +108,15 @@ export default function Login(props) {
           });
         } else {
           res.json().then((data) => {
-            alert(data.error);
+            toast.error(data.error);
             setUserData({ ...userData, password: "" });
           });
         }
       })
       .catch((err) => {
-        alert("Something went wrong. Please check your internet connection.");
+        toast.error(
+          "Something went wrong. Please check your internet connection."
+        );
         console.log(err);
         setUserData({ ...userData, password: "" });
       });

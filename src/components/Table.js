@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import "../css/Table.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
+import { toast } from "react-toastify";
 
 const TableHeader = (props) => {
   return (
@@ -24,31 +25,36 @@ const TableRow = (props) => {
   };
 
   const deleteTransaction = () => {
-    fetch(API_URL, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${user.autoken}`,
-      },
-    })
-      .then((res) => {
-        if (res.ok) {
-          onDel(props.data.rowid);
-        } else if (res.status === 800 || res.status === 801) {
-          res.json().then((res_data) => {
-            alert(res_data.error);
-            localStorage.removeItem(process.env.REACT_APP_TOKEN);
-            dispatch({ type: "Clear_Data" });
-          });
-        } else {
-          res.json().then((res_data) => {
-            alert(res_data.error);
-          });
-        }
+    if (window.confirm("Do you want to delete transaction?")) {
+      fetch(API_URL, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.autoken}`,
+        },
       })
-      .catch((err) => {
-        console.log(err);
-        alert("Failed to delete transaction. Check your internet connection.");
-      });
+        .then((res) => {
+          if (res.ok) {
+            onDel(props.data.rowid);
+            toast.success("Deleted transaction successfully.");
+          } else if (res.status === 800 || res.status === 801) {
+            res.json().then((res_data) => {
+              toast.error(res_data.error);
+              localStorage.removeItem(process.env.REACT_APP_TOKEN);
+              dispatch({ type: "Clear_Data" });
+            });
+          } else {
+            res.json().then((res_data) => {
+              toast.error(res_data.error);
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error(
+            "Failed to delete transaction. Check your internet connection."
+          );
+        });
+    }
   };
 
   return (

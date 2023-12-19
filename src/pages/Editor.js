@@ -3,6 +3,7 @@ import "../css/Editor.css";
 import { useEffect, useState } from "react";
 import Dropdown from "../components/Dropdown";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
+import { toast } from "react-toastify";
 
 export default function Editor(props) {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function Editor(props) {
       if (req_val) {
         setData(req_val);
       } else {
-        alert("Undefined transaction!");
+        toast.error("Undefined transaction!");
         navigate("/", { replace: true });
       }
     }
@@ -76,24 +77,27 @@ export default function Editor(props) {
               };
             }
             dispatch(action);
+            toast.success(
+              (props.type === "edit" ? "Edited" : "Added new") + " transaction."
+            );
             navigate("/", { replace: true });
           });
         } else if (res.status === 800 || res.status === 801) {
           res.json().then((res_data) => {
-            alert(res_data.error);
+            toast.error(res_data.error);
             localStorage.removeItem(process.env.REACT_APP_TOKEN);
             dispatch({ type: "Clear_Data" });
           });
         } else {
           res.json().then((res_data) => {
-            alert(res_data.error);
+            toast.error(res_data.error);
             navigate("/", { replace: true });
           });
         }
       })
       .catch((err) => {
         console.log(err);
-        alert(
+        toast.error(
           `Could not ${
             props.type === "edit" ? "update" : "add"
           } transaction. Please check your internet connection.`

@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 export default function LoadTransactions(
   user,
   dispatch,
@@ -20,14 +22,14 @@ export default function LoadTransactions(
           });
         } else if (res.status === 800 || res.status === 801) {
           res.json().then((res_data) => {
-            alert(res_data.error);
+            toast.error(res_data.error);
             localStorage.removeItem(process.env.REACT_APP_TOKEN);
             dispatch({ type: "Clear_Data" });
             config.onComplete();
           });
         } else {
           res.json().then((res_data) => {
-            alert(res_data.error);
+            toast.error(res_data.error);
             config.onComplete();
           });
         }
@@ -36,7 +38,9 @@ export default function LoadTransactions(
     .catch((err) => {
       if (!config.ignore) {
         console.log(err);
-        alert("Failed to load your details. Check your internet connection.");
+        toast.error(
+          "Failed to load your details. Check your internet connection."
+        );
         config.onComplete();
       }
     });

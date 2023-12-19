@@ -11,6 +11,8 @@ import Editor from "./pages/Editor";
 import useCoreDataContext from "./Hooks/useCoreDataContext";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   let { user, transactions, isLoading } = useCoreDataContext();
@@ -18,6 +20,18 @@ function App() {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {!isLoading ? (
         <Router>
           <Navbar />
