@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import "../css/Navbar.css";
+import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const { user, dispatch } = useCoreDataContext();
@@ -15,12 +16,7 @@ export default function Navbar() {
 
   return (
     <nav>
-      <img
-        src="./logo.png"
-        alt=""
-        className="logo"
-        onClick={() => navigate("/")}
-      />
+      <img src={logo} alt="" className="logo" onClick={() => navigate("/")} />
       <div className="navigation">
         {user ? (
           <>

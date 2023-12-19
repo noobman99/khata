@@ -6,8 +6,8 @@
 
 :root {
   /* primary color and shades */
-  --background-gray: rgb(60, 60, 60);
-  --drak-gray: rgb(41, 41, 41);
+  --background-grey: rgb(60, 60, 60);
+  --dark-grey: rgb(41, 41, 41);
   /* secondary color and shades */
   --background-green: rgb(50, 131, 66);
   --font-green: rgb(98, 252, 160);
@@ -26,7 +26,7 @@ body {
 html {
   font-family: "Roboto", sans-serif;
   /* background: linear-gradient(45deg, #49a09d, #5f2c82); */
-  background: var(--background-gray);
+  background: var(--background-grey);
 }
 
 section.khata-body {

@@ -9,7 +9,7 @@
   display: inline-flex;
 }
 .backbox {
-  background-color: var(--drak-gray);
+  background-color: var(--dark-grey);
   width: 100%;
   height: 80%;
   position: absolute;
@@ -64,7 +64,7 @@
 .signupMsg button {
   padding: 10px;
   margin-top: 20px;
-  background-color: var(--background-gray);
+  background-color: var(--background-grey);
   border: 2px solid var(--font-light-green);
   border-radius: 10px;
   color: var(--font-light-green);
@@ -102,13 +102,14 @@
 .signup input {
   display: block;
   width: 100%;
-  border-color: var(--background-gray);
+  border-color: var(--background-grey);
   margin-bottom: 20px;
+  color: var(--background-grey);
   font-size: 1em;
 }
 .login input:focus,
 .signup input:focus {
-  border-color: var(--drak-gray);
+  border-color: var(--dark-grey);
   background: linear-gradient(
     0deg,
     rgba(0, 0, 0, 0.07),
@@ -122,7 +123,7 @@
   top: 10px;
   font-size: 1em;
   z-index: 2;
-  color: var(--background-gray);
+  color: var(--background-grey);
   cursor: pointer;
 }
 
@@ -149,12 +150,12 @@
 /* Fade In & Out*/
 .login p {
   cursor: pointer;
-  color: var(--background-gray);
+  color: var(--background-grey);
   filter: brightness(1.1);
   transition-duration: 0.3s;
 }
 .login p:hover {
-  color: var(--drak-gray);
+  color: var(--dark-grey);
 }
 
 .loginMsg,
