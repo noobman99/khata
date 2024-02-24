@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+// import Profile from "./pages/Profile";
 
 function App() {
   let { user, transactions, isLoading } = useCoreDataContext();
@@ -38,18 +39,6 @@ function App() {
           <section className="khata-body">
             <Routes>
               <Route
-                path="/edit/:id"
-                element={
-                  user ? <Editor type="edit" /> : <Navigate to="/login" />
-                }
-              />
-              <Route
-                path="/new"
-                element={
-                  user ? <Editor type="new" /> : <Navigate to="/login" />
-                }
-              />
-              <Route
                 path="/login"
                 element={!user ? <Login type="login" /> : <Navigate to="/" />}
               />
@@ -58,8 +47,24 @@ function App() {
                 element={!user ? <Login type="signup" /> : <Navigate to="/" />}
               />
               <Route
+                path="/edit/:id"
+                element={
+                  user ? <Editor type="edit" /> : <Navigate to="/login" />
+                }
+              />
+              <Route
+                path="/new"
+                element={
+                  true ? <Editor type="new" /> : <Navigate to="/login" />
+                }
+              />
+              {/* <Route
+                path="/profile"
+                element={user ? <Profile /> : <Navigate to={"/login"} />}
+              /> */}
+              <Route
                 path="/"
-                element={user ? <Transactions /> : <Navigate to="/login" />}
+                element={true ? <Transactions /> : <Navigate to="/login" />}
               />
             </Routes>
           </section>

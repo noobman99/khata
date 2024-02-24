@@ -86,6 +86,7 @@ export default function Login(props) {
             let user = {
               username: data.username,
               autoken: data.token,
+              email: data.email,
             };
             dispatch({
               type: "Set_User",
