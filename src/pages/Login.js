@@ -92,6 +92,10 @@ export default function Login(props) {
               type: "Set_User",
               payload: user,
             });
+            dispatch({
+              type: "Set_Categories",
+              payload: data.categories,
+            });
             localStorage.setItem(
               process.env.REACT_APP_TOKEN,
               JSON.stringify(user)

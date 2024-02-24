@@ -55,7 +55,7 @@ function App() {
               <Route
                 path="/new"
                 element={
-                  true ? <Editor type="new" /> : <Navigate to="/login" />
+                  user ? <Editor type="new" /> : <Navigate to="/login" />
                 }
               />
               {/* <Route
@@ -64,7 +64,7 @@ function App() {
               /> */}
               <Route
                 path="/"
-                element={true ? <Transactions /> : <Navigate to="/login" />}
+                element={user ? <Transactions /> : <Navigate to="/login" />}
               />
             </Routes>
           </section>

@@ -8,16 +8,14 @@ import { toast } from "react-toastify";
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  let { transactions, user, dispatch } = useCoreDataContext();
+  let { transactions, user, categories, dispatch } = useCoreDataContext();
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
     reason: "",
     amount: "",
-    category: "Other",
+    category: "Food",
   });
-
-  const categoryTypes = ["Food", "Travel", "Bevereges", "Shopping", "Others"];
 
   const API_URL =
     process.env.REACT_APP_BACKEND +
@@ -77,6 +75,12 @@ export default function Editor(props) {
               };
             }
             dispatch(action);
+            if (!categories.includes(data.category)) {
+              dispatch({
+                type: "New_Category",
+                payload: data.category,
+              });
+            }
             toast.success(
               (props.type === "edit" ? "Edited" : "Added new") + " transaction."
             );
@@ -150,7 +154,7 @@ export default function Editor(props) {
         <Dropdown
           className="input-group"
           label="Category"
-          list={categoryTypes}
+          list={categories}
           data={data.category}
           name="category"
           onChange={(val) => {

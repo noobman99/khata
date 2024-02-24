@@ -13,7 +13,7 @@ export default function Dropdown(props) {
   const inputRef = useRef(null);
 
   const focusOut = (e) => {
-    if (newEntryVal) {
+    if (newEntryVal != "") {
       props.onChange(newEntryVal);
     }
     setNewEntry(false);
@@ -42,6 +42,7 @@ export default function Dropdown(props) {
           onBlur={focusOut}
           ref={inputRef}
           onChange={handleInput}
+          required
         />
         {!newEntry && (
           <>
