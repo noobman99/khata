@@ -1,34 +1,33 @@
 // import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import "../css/Dropdown.css";
 
 export default function Dropdown(props) {
-  // let [search, setSearch] = useState(props.data[props.attribute]);
-  // let [focused, setFocused] = useState(false);
-
-  // const onSearch = (e) => {
-  //   setSearch(e.target.value);
-  // };
-
-  // useEffect(() => {
-  //   if (focused) {
-  //     setSearch(props.data[props.attribute]);
-  //   }
-  // }, [focused]);
-
-  // useEffect(() => {
-  //   setSearch(props.data[props.attribute]);
-  // }, [props.data]);
-
-  // const onFocus = () => {
-  //   setFocused(true);
-  // };
-
-  // const onBlur = () => {
-  //   setFocused(false);
-  // };
-
   const onClick = (e) => {
     props.onChange(e.target.textContent);
+    setNewEntryVal("");
+  };
+
+  const [newEntry, setNewEntry] = useState(false);
+  const [newEntryVal, setNewEntryVal] = useState("");
+  const inputRef = useRef(null);
+
+  const focusOut = (e) => {
+    if (newEntryVal) {
+      props.onChange(newEntryVal);
+    }
+    setNewEntry(false);
+  };
+
+  const enableNewEntry = () => {
+    setNewEntry(true);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  const handleInput = (e) => {
+    setNewEntryVal(e.target.value);
   };
 
   return (
@@ -37,37 +36,44 @@ export default function Dropdown(props) {
         <input
           type="text"
           name={props.name}
-          value={props.data}
-          // value={focused ? search : props.data[props.attribute]}
-          // onFocus={onFocus}
-          // onBlur={onBlur}
-          // onChange={onSearch}
+          value={newEntry ? newEntryVal : props.data}
           autoComplete="off"
-          readOnly={true}
+          readOnly={!newEntry}
+          onBlur={focusOut}
+          ref={inputRef}
+          onChange={handleInput}
         />
-        <i className="fa-sharp fa-solid fa-caret-down downarrow" />
-        <ul className={"dropdown__list"}>
-          {props.list
-            // .filter((val) => {
-            //   return (
-            //     !search || val.toLowerCase().includes(search.toLowerCase())
-            //   );
-            // })
-            .map((val, key) => {
-              return (
+        {!newEntry && (
+          <>
+            <i className="fa-sharp fa-solid fa-caret-down downarrow" />
+
+            <ul className={"dropdown__list"}>
+              {props.list.map((val, key) => {
+                return (
+                  <li
+                    className={
+                      "dropdown__list-item" +
+                      (val === props.data ? " selected" : "")
+                    }
+                    key={key}
+                    onClick={onClick}
+                  >
+                    {val}
+                  </li>
+                );
+              })}
+              {props.addButton && (
                 <li
-                  className={
-                    "dropdown__list-item" +
-                    (val === props.data ? " selected" : "")
-                  }
-                  key={key}
-                  onClick={onClick}
+                  className="dropdown__list-item add-button"
+                  style={{ textAlign: "center", color: "var(--font-green)" }}
+                  onClick={enableNewEntry}
                 >
-                  {val}
+                  <i className="fab fa-plus" /> Add
                 </li>
-              );
-            })}
-        </ul>
+              )}
+            </ul>
+          </>
+        )}
       </div>
       <label>{props.label}</label>
     </div>

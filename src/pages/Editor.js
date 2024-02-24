@@ -159,6 +159,7 @@ export default function Editor(props) {
               category: val,
             });
           }}
+          addButton={true}
         />
         <div className="new-transaction-form-footer">
           <button onClick={redir} className="button-red">
