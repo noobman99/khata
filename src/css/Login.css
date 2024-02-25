@@ -1,6 +1,6 @@
 .container {
   /*border:1px solid white;*/
-  width: 600px;
+  width: min(600px, 100%);
   height: 350px;
   position: absolute;
   top: 50%;
@@ -22,7 +22,7 @@
   background-color: var(--cream);
   border-radius: 20px;
   height: 100%;
-  width: 50%;
+  width: max(50%, 280px);
   z-index: 10;
   position: absolute;
   right: 0;
@@ -170,4 +170,20 @@
 
 .hide {
   display: none;
+}
+
+@media (max-width: 600px) {
+  .backbox {
+    display: none;
+  }
+  .frontbox {
+    position: relative;
+    margin: 0 auto;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    height: calc(100% - 30px);
+  }
+  .moving {
+    right: 0;
+  }
 }

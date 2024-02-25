@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function Login(props) {
   let { dispatch, fetchTransactions } = useCoreDataContext();
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   let [userData, setUserData] = useState({
     username: "",
@@ -18,6 +18,9 @@ export default function Login(props) {
   let [mode, setMode] = useState(props.type === "login");
   let [passVisible, setPassVisible] = useState(false);
   let passRef = useRef(null);
+
+  console.log(props.type);
+  console.log(mode);
 
   // switch from login to signup and vice-verse as well as clear data
   const changeForm = (toMode) => {
@@ -39,6 +42,15 @@ export default function Login(props) {
   const togglePassVisible = () => {
     setPassVisible(!passVisible);
   };
+
+  // set mode to login if type is login
+  useEffect(() => {
+    if (props.type === "login") {
+      setMode(true);
+    } else {
+      setMode(false);
+    }
+  }, [props.type]);
 
   // set pass visible to false if clicked anywhere except the password input.
   useEffect(() => {
