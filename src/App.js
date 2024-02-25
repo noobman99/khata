@@ -13,6 +13,7 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loader from "./components/Loader";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -70,7 +71,7 @@ function App() {
           </section>
         </Router>
       ) : (
-        <h2> Loading </h2>
+        <Loader />
       )}
     </>
   );

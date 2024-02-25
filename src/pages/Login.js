@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function Login(props) {
-  let { dispatch, fetchTransactions } = useCoreDataContext();
+  let { dispatch, fetchTransactions, setIsLoading } = useCoreDataContext();
   let navigate = useNavigate();
 
   let [userData, setUserData] = useState({
@@ -17,10 +17,8 @@ export default function Login(props) {
   // mode = 1 => login else signup
   let [mode, setMode] = useState(props.type === "login");
   let [passVisible, setPassVisible] = useState(false);
+  let [loading, setLoading] = useState(false);
   let passRef = useRef(null);
-
-  console.log(props.type);
-  console.log(mode);
 
   // switch from login to signup and vice-verse as well as clear data
   const changeForm = (toMode) => {
@@ -84,6 +82,8 @@ export default function Login(props) {
     }
     console.log(data);
 
+    setLoading(true);
+
     fetch(API_URL, {
       method: "POST",
       headers: {
@@ -112,18 +112,23 @@ export default function Login(props) {
               process.env.REACT_APP_TOKEN,
               JSON.stringify(user)
             );
+
+            setLoading(false);
+            setUserData({ username: "", email: "", password: "" });
+            toast.success("Please wait while we load your transactions.");
+            toast.success("Welcome " + user.username);
+            setIsLoading(true);
+
             fetchTransactions(user, {
               ignore: false,
-              onComplete: () => toast.success("Welcome " + user.username),
+              onComplete: () => {
+                setIsLoading(false);
+              },
             });
-            setUserData({
-              username: "",
-              email: "",
-              password: "",
-            });
-            navigate("/");
           });
         } else {
+          setLoading(false);
+
           res.json().then((data) => {
             toast.error(data.error);
             setUserData({ ...userData, password: "" });
@@ -135,6 +140,7 @@ export default function Login(props) {
           "Something went wrong. Please check your internet connection."
         );
         console.log(err);
+        setLoading(false);
         setUserData({ ...userData, password: "" });
       });
   };
@@ -200,7 +206,13 @@ export default function Login(props) {
               </div>
             </div>
             <p>FORGET PASSWORD?</p>
-            <button type="submit">LOG IN</button>
+            {loading ? (
+              <div className="spinner-border" role="status" aria-hidden="true">
+                <div className="spinner-inner" />
+              </div>
+            ) : (
+              <button type="submit">LOG IN</button>
+            )}
           </form>
         ) : (
           <form
@@ -248,7 +260,13 @@ export default function Login(props) {
                 )}
               </div>
             </div>
-            <button type="submit">SIGN UP</button>
+            {loading ? (
+              <div className="spinner-border" role="status" aria-hidden="true">
+                <div className="spinner-inner" />
+              </div>
+            ) : (
+              <button type="submit">SIGN UP</button>
+            )}
           </form>
         )}
       </div>

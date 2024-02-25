@@ -88,7 +88,13 @@ export const CoreDataContextProvider = ({ children }) => {
 
   return (
     <CoreDataContext.Provider
-      value={{ ...coreData, dispatch, fetchTransactions, isLoading }}
+      value={{
+        ...coreData,
+        dispatch,
+        fetchTransactions,
+        isLoading,
+        setIsLoading,
+      }}
     >
       {children}
     </CoreDataContext.Provider>
