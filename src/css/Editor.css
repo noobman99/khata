@@ -55,28 +55,35 @@
   font-size: 1.4em;
 }
 
-@media screen and (max-width: 1200px) {
+@media (max-width: 1200px) {
   .new-transaction-form {
-    width: 50%;
+    width: 40%;
   }
 }
 
-@media screen and (max-width: 850px) {
-  .new-transaction-form {
-    width: 50%;
-  }
-}
-
-@media screen and (max-width: 550px) {
+@media (max-width: 850px) {
   .new-transaction-form {
     width: 60%;
-    padding: 1.5em 2em;
-    font-size: 0.88rem;
   }
 }
 
-@media screen and (max-width: 360px) {
+@media (max-width: 500px) {
   .new-transaction-form {
-    width: 75%;
+    width: 95%;
+    padding: 1.5em 2em;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 400px) {
+  .new-transaction > header {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 375px) {
+  .new-transaction-form {
+    width: 100%;
+    font-size: 0.8em;
   }
 }
