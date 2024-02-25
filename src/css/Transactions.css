@@ -40,3 +40,16 @@
   color: white;
   box-shadow: 0 0 5px var(--font-green);
 }
+
+@media (max-width: 500px) {
+  .ledger > header {
+    font-size: 1.4em;
+  }
+  .ledger > header button {
+    height: 35px;
+    width: 35px;
+    font-size: 15px;
+    left: calc(100% + 20px);
+    top: calc(50% - 17.5px);
+  }
+}

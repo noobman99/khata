@@ -14,16 +14,33 @@
   color: var(--light-cream);
 }
 
-.transaction-table tbody tr:nth-child(odd) {
+.transaction-table tbody tr.even {
   background-color: rgba(255, 255, 255, 0.11);
+  overflow: hidden;
 }
 
-.transaction-table tbody tr:nth-child(even) {
+.transaction-table tbody tr.odd {
   background-color: rgba(255, 255, 255, 0.22);
+  overflow: hidden;
 }
 
-.transaction-table tbody tr:hover {
+/* Hover effect for table row. The cases are since two table rows correspond to same data in mobile view */
+
+.transaction-table tbody tr.odd:hover,
+.transaction-table tbody tr.even:hover,
+.transaction-table tbody tr.odd:hover + tr.odd,
+.transaction-table tbody tr.even:hover + tr.even,
+.transaction-table tbody tr.odd:has(+ tr.odd:hover),
+.transaction-table tbody tr.even:has(+ tr.even:hover) {
   background-color: rgba(255, 255, 255, 0.35);
+}
+
+.transaction-table tbody tr .downarrow {
+  transition-duration: 0.2s;
+}
+.transaction-table tbody tr .downarrow.inverted {
+  transform: rotate(180deg);
+  transition-duration: 0.2s;
 }
 
 .transaction-table th,
@@ -65,4 +82,48 @@
 .td-controls button:hover {
   filter: brightness(1.1) contrast(1.1);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.4);
+}
+
+@media (min-width: 751px) {
+  .smscr-only {
+    display: none;
+  }
+  td.bigscr-only,
+  th.bigscr-only {
+    display: table-cell;
+  }
+}
+
+@media (max-width: 750px) {
+  th.smscr-only,
+  td.smscr-only {
+    display: table-cell;
+  }
+  tr.smscr-only {
+    display: table-row;
+  }
+  .bigscr-only {
+    display: none;
+  }
+}
+
+@media (max-width: 650px) {
+  .transaction-table {
+    width: 85%;
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 500px) {
+  .transaction-table {
+    width: 90%;
+    font-size: 0.8em;
+  }
+}
+
+@media (max-width: 350px) {
+  .transaction-table {
+    width: 95%;
+    font-size: 0.7em;
+  }
 }
