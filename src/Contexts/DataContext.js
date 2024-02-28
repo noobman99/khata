@@ -71,10 +71,11 @@ export const CoreDataContextProvider = ({ children }) => {
     };
     let config = { ignore: false, onComplete };
 
-    let user = localStorage.getItem(process.env.REACT_APP_TOKEN);
-    if (user) {
-      user = JSON.parse(user);
+    let user_data = localStorage.getItem(process.env.REACT_APP_TOKEN);
+    if (user_data) {
+      let { user, categories } = JSON.parse(user_data);
       dispatch({ type: "Set_User", payload: user });
+      dispatch({ type: "Set_Categories", payload: categories });
       // load transactions from server
       fetchTransactions(user, config);
     } else {

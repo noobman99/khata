@@ -110,7 +110,7 @@ export default function Login(props) {
             });
             localStorage.setItem(
               process.env.REACT_APP_TOKEN,
-              JSON.stringify(user)
+              JSON.stringify({ user, categories: data.categories })
             );
 
             setLoading(false);
