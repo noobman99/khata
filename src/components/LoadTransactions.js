@@ -37,7 +37,7 @@ export default function LoadTransactions(
     })
     .catch((err) => {
       if (!config.ignore) {
-        console.log(err);
+        // console.log(err);
         toast.error(
           "Failed to load your details. Check your internet connection."
         );

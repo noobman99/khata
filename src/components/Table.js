@@ -58,7 +58,7 @@ const TableRow = (props) => {
           }
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           toast.error(
             "Failed to delete transaction. Check your internet connection."
           );

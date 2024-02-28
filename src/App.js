@@ -18,7 +18,7 @@ import Loader from "./components/Loader";
 
 function App() {
   let { user, transactions, isLoading } = useCoreDataContext();
-  console.log(user, transactions, isLoading);
+  // console.log(user, transactions, isLoading);
 
   return (
     <>

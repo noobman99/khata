@@ -100,7 +100,7 @@ export default function Editor(props) {
         }
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         toast.error(
           `Could not ${
             props.type === "edit" ? "update" : "add"

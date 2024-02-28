@@ -63,7 +63,7 @@ export const CoreDataContextProvider = ({ children }) => {
     LoadTransactions(user, dispatch, config);
   };
 
-  console.log(isLoading);
+  // console.log(isLoading);
 
   useEffect(() => {
     const onComplete = () => {

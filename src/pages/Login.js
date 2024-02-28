@@ -53,7 +53,7 @@ export default function Login(props) {
   // set pass visible to false if clicked anywhere except the password input.
   useEffect(() => {
     const clickListener = (e) => {
-      console.log(e.target.parentNode, passRef.current);
+      // console.log(e.target.parentNode, passRef.current);
       if (e.target.parentNode !== passRef.current) {
         setPassVisible(false);
       }
@@ -80,7 +80,7 @@ export default function Login(props) {
     } else {
       data = { ...userData };
     }
-    console.log(data);
+    // console.log(data);
 
     setLoading(true);
 
@@ -139,7 +139,7 @@ export default function Login(props) {
         toast.error(
           "Something went wrong. Please check your internet connection."
         );
-        console.log(err);
+        // console.log(err);
         setLoading(false);
         setUserData({ ...userData, password: "" });
       });
