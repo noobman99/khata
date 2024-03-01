@@ -3,6 +3,11 @@ import "../css/Login.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import {
+  validEmail,
+  validPassword,
+  validText,
+} from "../components/ValidityChecks";
 
 export default function Login(props) {
   let { dispatch, fetchTransactions, setIsLoading } = useCoreDataContext();
@@ -82,7 +87,18 @@ export default function Login(props) {
     }
     // console.log(data);
 
-    setLoading(true);
+    setLoading(true); // stop from multiple request generation
+
+    // check if email and password are valid
+    if (
+      !validEmail(data.email) ||
+      (mode === 0 &&
+        (!validPassword(data.password) ||
+          !validText(data.username, "Username")))
+    ) {
+      setLoading(false);
+      return;
+    }
 
     fetch(API_URL, {
       method: "POST",

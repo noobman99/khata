@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 import Dropdown from "../components/Dropdown";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import { toast } from "react-toastify";
+import {
+  validDate,
+  validAmount,
+  validText,
+} from "../components/ValidityChecks";
 
 export default function Editor(props) {
   const navigate = useNavigate();
@@ -51,7 +56,18 @@ export default function Editor(props) {
   const submitForm = (e) => {
     e.preventDefault();
 
-    setIsSubmitting(true);
+    setIsSubmitting(true); // start spinner
+
+    // check if date and amount are valid
+    if (
+      !validDate(data.date) ||
+      !validAmount(data.amount) ||
+      !validText(data.reason, "Reason") ||
+      !validText(data.category, "Category")
+    ) {
+      setIsSubmitting(false);
+      return;
+    }
 
     fetch(API_URL, {
       method: req_type,
