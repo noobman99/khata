@@ -115,16 +115,24 @@ export default function Login(props) {
 
             setLoading(false);
             setUserData({ username: "", email: "", password: "" });
-            toast.success("Please wait while we load your transactions.");
-            toast.success("Welcome " + user.username);
-            setIsLoading(true);
 
-            fetchTransactions(user, {
-              ignore: false,
-              onComplete: () => {
-                setIsLoading(false);
-              },
-            });
+            if (mode) {
+              let toastID = toast.success(
+                "Please wait while we load your transactions."
+              );
+              fetchTransactions(user, {
+                ignore: false,
+                onComplete: () => {
+                  setTimeout(() => {
+                    setIsLoading(false);
+                    toast.dismiss(toastID);
+                  }, 500);
+                },
+              });
+              setIsLoading(true);
+            }
+
+            toast.success("Welcome " + user.username);
           });
         } else {
           setLoading(false);
