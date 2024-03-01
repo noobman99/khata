@@ -16,6 +16,7 @@ export default function Editor(props) {
     amount: "",
     category: "Food",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const API_URL =
     process.env.REACT_APP_BACKEND +
@@ -50,6 +51,8 @@ export default function Editor(props) {
   const submitForm = (e) => {
     e.preventDefault();
 
+    setIsSubmitting(true);
+
     fetch(API_URL, {
       method: req_type,
       body: JSON.stringify(data),
@@ -59,6 +62,8 @@ export default function Editor(props) {
       },
     })
       .then((res) => {
+        setIsSubmitting(false);
+
         if (res.ok) {
           res.json().then((res_data) => {
             let action;
@@ -100,6 +105,8 @@ export default function Editor(props) {
         }
       })
       .catch((err) => {
+        setIsSubmitting(false);
+
         // console.log(err);
         toast.error(
           `Could not ${
@@ -166,12 +173,22 @@ export default function Editor(props) {
           addButton={true}
         />
         <div className="new-transaction-form-footer">
-          <button onClick={redir} className="button-red">
+          <button
+            onClick={redir}
+            className="button-red"
+            disabled={isSubmitting}
+          >
             Cancel
           </button>
-          <button className="button-blue" type="submit">
-            Save
-          </button>
+          {isSubmitting ? (
+            <div className="spinner-border" role="status" aria-hidden="true">
+              <div className="spinner-inner" />
+            </div>
+          ) : (
+            <button className="button-blue" type="submit">
+              Save
+            </button>
+          )}
         </div>
       </form>
     </div>

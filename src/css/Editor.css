@@ -55,6 +55,17 @@
   font-size: 1.4em;
 }
 
+.new-transaction-form-footer .spinner-border {
+  position: relative;
+  right: 0;
+  bottom: 0;
+  margin-top: 5px;
+}
+.new-transaction-form-footer .spinner-inner {
+  border-top: 0.3em solid var(--font-green);
+  border-right: 0.3em solid var(--font-green);
+}
+
 @media (max-width: 1200px) {
   .new-transaction-form {
     width: 40%;
