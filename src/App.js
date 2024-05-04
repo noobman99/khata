@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Loader from "./components/Loader";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import CancelReset from "./components/CancelReset";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -53,7 +54,11 @@ function App() {
                 path="/forgot-password"
                 element={!user ? <ForgotPassword /> : <Navigate to="/" />}
               />
-              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route
+                path="/reset-password"
+                element={user ? <ResetPassword /> : <Navigate to="/" />}
+              />
+              <Route path="/cancel-reset" element={<CancelReset />} />
               <Route
                 path="/edit/:id"
                 element={

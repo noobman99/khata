@@ -6,6 +6,10 @@
   justify-content: center;
   align-items: center;
 }
+.loader.asbody {
+  z-index: inherit;
+  height: calc(100svh - 110px);
+}
 
 .loader .loader-box {
   position: relative;
