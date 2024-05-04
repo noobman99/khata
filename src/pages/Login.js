@@ -169,6 +169,41 @@ export default function Login(props) {
       });
   };
 
+  const forgotPassword = () => {
+    if (!validEmail(userData.email)) {
+      return;
+    }
+
+    let toastID = toast.info("Please wait while we send the email.");
+    fetch(process.env.REACT_APP_BACKEND + "/forgotpassword", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify({ email: userData.email }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          res.json().then((data) => {
+            toast.success(data.message);
+          });
+        } else {
+          res.json().then((data) => {
+            toast.error(data.error);
+          });
+        }
+      })
+      .catch((err) => {
+        toast.error(
+          "Something went wrong. Please check your internet connection."
+        );
+        // console.log(err);
+      })
+      .finally(() => {
+        toast.dismiss(toastID);
+      });
+  };
+
   return (
     <div className="container">
       <div className="backbox">
@@ -229,7 +264,9 @@ export default function Login(props) {
                 )}
               </div>
             </div>
-            <p>FORGET PASSWORD?</p>
+            <a onClick={forgotPassword}>
+              <p>FORGOT PASSWORD?</p>
+            </a>
             {loading ? (
               <div className="spinner-border" role="status" aria-hidden="true">
                 <div className="spinner-inner" />

@@ -156,6 +156,8 @@
 }
 .login p:hover {
   color: var(--dark-grey);
+  filter: brightness(1.3);
+  text-decoration: underline;
 }
 
 .loginMsg,
