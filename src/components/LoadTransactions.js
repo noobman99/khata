@@ -22,11 +22,13 @@ export default function LoadTransactions(
           });
         } else if (res.status === 800 || res.status === 801) {
           res.json().then((res_data) => {
-            toast.error(res_data.error);
+            toast.error(res_data.error + " Please login again.");
             localStorage.removeItem(process.env.REACT_APP_TOKEN);
             dispatch({ type: "Clear_Data" });
             config.onComplete();
           });
+        } else if (res.status === 403) {
+          toast.error("Please login to view transactions.");
         } else {
           res.json().then((res_data) => {
             toast.error(res_data.error);
