@@ -15,6 +15,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./components/Loader";
 import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -52,6 +53,7 @@ function App() {
                 path="/forgot-password"
                 element={!user ? <ForgotPassword /> : <Navigate to="/" />}
               />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route
                 path="/edit/:id"
                 element={
