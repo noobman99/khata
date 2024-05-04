@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Loader from "./components/Loader";
+import ForgotPassword from "./pages/ForgotPassword";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -46,6 +47,10 @@ function App() {
               <Route
                 path="/signup"
                 element={!user ? <Login type="signup" /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/forgot-password"
+                element={!user ? <ForgotPassword /> : <Navigate to="/" />}
               />
               <Route
                 path="/edit/:id"

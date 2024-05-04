@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "../css/Login.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   validEmail,
@@ -11,7 +11,6 @@ import {
 
 export default function Login(props) {
   let { dispatch, fetchTransactions, setIsLoading } = useCoreDataContext();
-  let navigate = useNavigate();
 
   let [userData, setUserData] = useState({
     username: "",
@@ -169,41 +168,6 @@ export default function Login(props) {
       });
   };
 
-  const forgotPassword = () => {
-    if (!validEmail(userData.email)) {
-      return;
-    }
-
-    let toastID = toast.info("Please wait while we send the email.");
-    fetch(process.env.REACT_APP_BACKEND + "/forgotpassword", {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify({ email: userData.email }),
-    })
-      .then((res) => {
-        if (res.ok) {
-          res.json().then((data) => {
-            toast.success(data.message);
-          });
-        } else {
-          res.json().then((data) => {
-            toast.error(data.error);
-          });
-        }
-      })
-      .catch((err) => {
-        toast.error(
-          "Something went wrong. Please check your internet connection."
-        );
-        // console.log(err);
-      })
-      .finally(() => {
-        toast.dismiss(toastID);
-      });
-  };
-
   return (
     <div className="container">
       <div className="backbox">
@@ -264,9 +228,9 @@ export default function Login(props) {
                 )}
               </div>
             </div>
-            <a onClick={forgotPassword}>
+            <Link to="/forgot-password">
               <p>FORGOT PASSWORD?</p>
-            </a>
+            </Link>
             {loading ? (
               <div className="spinner-border" role="status" aria-hidden="true">
                 <div className="spinner-inner" />
