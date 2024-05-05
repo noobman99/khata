@@ -154,6 +154,9 @@
   filter: brightness(1.1);
   transition-duration: 0.3s;
 }
+.login a {
+  text-decoration: none;
+}
 .login p:hover {
   color: var(--dark-grey);
   filter: brightness(1.3);
