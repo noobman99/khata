@@ -54,10 +54,7 @@ function App() {
                 path="/forgot-password"
                 element={!user ? <ForgotPassword /> : <Navigate to="/" />}
               />
-              <Route
-                path="/reset-password"
-                element={user ? <ResetPassword /> : <Navigate to="/" />}
-              />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/cancel-reset" element={<CancelReset />} />
               <Route
                 path="/edit/:id"

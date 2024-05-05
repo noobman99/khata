@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { validPassword } from "../components/ValidityChecks";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import "../css/ResetPassword.css";
 import { toast } from "react-toastify";
 
@@ -56,6 +56,10 @@ export default function ResetPassword() {
         // console.log(err);
       });
   };
+
+  if (!token || !email) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <div className="reset-password">
