@@ -112,7 +112,7 @@ export default function Editor(props) {
             toast.error(res_data.error + " Please login again.");
             localStorage.removeItem(process.env.REACT_APP_TOKEN);
             dispatch({ type: "Clear_Data" });
-            config.onComplete();
+            // config.onComplete();
           });
         } else if (res.status === 403) {
           toast.error("Please login to perform this operation.");

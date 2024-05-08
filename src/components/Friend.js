@@ -1,6 +1,92 @@
+import { useState } from "react";
 import "../css/Friend.css";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
-export default function Friend() {
+export default function Friend({ type, data }) {
+  let [loading, setLoading] = useState(false);
+  let { dispatch } = useCoreDataContext();
+
+  const handleReject = () => {
+    let url = process.env.REACT_APP_BACKEND + "/profile";
+
+    if (type) {
+      url += "/removefriend";
+    } else {
+      url += "/rejectfriend";
+    }
+
+    setLoading(true);
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ friendId: data.uID }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          if (type) {
+            toast.success("Friend removed.");
+          } else {
+            toast.success("Friend request rejected.");
+          }
+        } else if (res.status === 800 || res.status === 801) {
+          res.json().then((res_data) => {
+            toast.error(res_data.error + " Please login again.");
+            localStorage.removeItem(process.env.REACT_APP_TOKEN);
+            dispatch({ type: "Clear_Data" });
+          });
+        } else if (res.status === 403) {
+          toast.error("Please login to perform this operation.");
+        } else {
+          res.json().then((res_data) => {
+            toast.error(res_data.error);
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Please check your internet connection.");
+      });
+  };
+
+  const handleAccept = () => {
+    let url = process.env.REACT_APP_BACKEND + "/profile/acceptfriend";
+    setLoading(true);
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ friendId: data.uId }),
+    })
+      .then((res) => {
+        if (res.ok) {
+          toast.success("Friend request accepted.");
+        } else if (res.status === 800 || res.status === 801) {
+          res.json().then((res_data) => {
+            toast.error(res_data.error + " Please login again.");
+            localStorage.removeItem(process.env.REACT_APP_TOKEN);
+            dispatch({ type: "Clear_Data" });
+          });
+        } else if (res.status === 403) {
+          toast.error("Please login to perform this operation.");
+        } else {
+          res.json().then((res_data) => {
+            toast.error(res_data.error);
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Please check your internet connection.");
+      });
+  };
+
   return (
     <div className="friend">
       <div className="friend-profile">
@@ -14,8 +100,18 @@ export default function Friend() {
         </div>
       </div>
       <div className="friend-controls">
-        <button className="button-red">Remove</button>
-        <button className="button-blue">View</button>
+        <button className="button-red" disabled={loading}>
+          {type
+            ? "Remov" + (loading ? "ing" : "e")
+            : "Reject" + (loading ? "ing" : "")}
+        </button>
+        {type ? (
+          <></>
+        ) : (
+          <button className="button-blue" disabled={loading}>
+            {"Accept" + (loading ? "ing" : "")}
+          </button>
+        )}
       </div>
     </div>
   );
