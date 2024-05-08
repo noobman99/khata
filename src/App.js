@@ -17,6 +17,7 @@ import Loader from "./components/Loader";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CancelReset from "./components/CancelReset";
+import Friends from "./pages/Friends";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -68,6 +69,7 @@ function App() {
                   user ? <Editor type="new" /> : <Navigate to="/login" />
                 }
               />
+              <Route path="/friends" element={<Friends />} />
               {/* <Route
                 path="/profile"
                 element={user ? <Profile /> : <Navigate to={"/login"} />}
