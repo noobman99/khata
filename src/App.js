@@ -18,6 +18,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CancelReset from "./components/CancelReset";
 import Friends from "./pages/Friends";
+import AddFriend from "./pages/addFriend";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
                 }
               />
               <Route path="/friends" element={<Friends />} />
+              <Route path="/addfriend" element={<AddFriend />} />
               {/* <Route
                 path="/profile"
                 element={user ? <Profile /> : <Navigate to={"/login"} />}

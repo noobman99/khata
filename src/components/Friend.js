@@ -4,7 +4,7 @@ import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 export default function Friend({ type, data }) {
   let [loading, setLoading] = useState(false);
-  let { dispatch } = useCoreDataContext();
+  let { dispatch, user } = useCoreDataContext();
 
   const handleReject = () => {
     let url = process.env.REACT_APP_BACKEND + "/profile";
@@ -20,7 +20,7 @@ export default function Friend({ type, data }) {
     fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: `Bearer ${user.autoken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ friendId: data.uID }),
@@ -59,7 +59,7 @@ export default function Friend({ type, data }) {
     fetch(url, {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: `Bearer ${user.autoken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ friendId: data.uId }),

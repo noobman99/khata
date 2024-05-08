@@ -9,7 +9,10 @@ export default function Friends() {
   // type 0 = friend requests
   // type 1 = friends
   let [friends, setFriends] = useState([]);
-  let { dispatch } = useCoreDataContext();
+  let { dispatch, user } = useCoreDataContext();
+
+  //   const addFriendLink = `https://khata.netlify.app/addFriend?id=${user.uID}`;
+  const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
 
   useEffect(() => {
     // fetch friends
@@ -25,7 +28,7 @@ export default function Friends() {
     fetch(url, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        // Authorization: `Bearer ${user.autoken}`,
       },
     })
       .then((res) => {
@@ -67,6 +70,19 @@ export default function Friends() {
           <span>F</span>riends
         </h1>
       </header>
+      <div className="friend-link">
+        <div>
+          <span>{addFriendLink}</span>
+        </div>
+        <button
+          onClick={() => {
+            navigator.clipboard.writeText(addFriendLink);
+            toast.success("Link copied to clipboard.");
+          }}
+        >
+          <i className="fas fa-copy"></i>
+        </button>
+      </div>
       <div className="friends-toggle">
         <button
           className={type ? "active" : ""}
