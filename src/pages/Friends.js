@@ -14,6 +14,10 @@ export default function Friends() {
   const addFriendLink = `http://localhost:3000/addFriend?id=${user.uId}`;
   // const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
 
+  const removeEntry = (id) => {
+    setFriends((prev) => prev.filter((friend) => friend.uId !== id));
+  };
+
   useEffect(() => {
     // fetch friends
     let url = process.env.REACT_APP_BACKEND + "/profile";
@@ -103,7 +107,12 @@ export default function Friends() {
       </div>
       <div className="friends-list">
         {friends.map((friend) => (
-          <Friend key={friend.uId} data={friend} type={type} />
+          <Friend
+            key={friend.uId}
+            data={friend}
+            type={type}
+            removeEntry={removeEntry}
+          />
         ))}
       </div>
     </div>
