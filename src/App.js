@@ -70,8 +70,14 @@ function App() {
                   user ? <Editor type="new" /> : <Navigate to="/login" />
                 }
               />
-              <Route path="/friends" element={<Friends />} />
-              <Route path="/addfriend" element={<AddFriend />} />
+              <Route
+                path="/friends"
+                element={user ? <Friends /> : <Navigate to="/login" />}
+              />
+              <Route
+                path="/addfriend"
+                element={user ? <AddFriend /> : <Navigate to="/login" />}
+              />
               {/* <Route
                 path="/profile"
                 element={user ? <Profile /> : <Navigate to={"/login"} />}

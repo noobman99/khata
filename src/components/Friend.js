@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../css/Friend.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
+import { toast } from "react-toastify";
 
 export default function Friend({ type, data }) {
   let [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ export default function Friend({ type, data }) {
         Authorization: `Bearer ${user.autoken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ friendId: data.uID }),
+      body: JSON.stringify({ friendId: data.uId }),
     })
       .then((res) => {
         if (res.ok) {
@@ -49,6 +50,9 @@ export default function Friend({ type, data }) {
       .catch((err) => {
         console.error(err);
         toast.error("Please check your internet connection.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -84,6 +88,9 @@ export default function Friend({ type, data }) {
       .catch((err) => {
         console.error(err);
         toast.error("Please check your internet connection.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -95,12 +102,16 @@ export default function Friend({ type, data }) {
           alt=""
         />
         <div>
-          <h3>John Doe</h3>
-          <p>#USR1234567</p>
+          <h3>{data.username}</h3>
+          <p>#{data.uId}</p>
         </div>
       </div>
       <div className="friend-controls">
-        <button className="button-red" disabled={loading}>
+        <button
+          className="button-red"
+          disabled={loading}
+          onClick={handleReject}
+        >
           {type
             ? "Remov" + (loading ? "ing" : "e")
             : "Reject" + (loading ? "ing" : "")}
@@ -108,7 +119,11 @@ export default function Friend({ type, data }) {
         {type ? (
           <></>
         ) : (
-          <button className="button-blue" disabled={loading}>
+          <button
+            className="button-blue"
+            disabled={loading}
+            onClick={handleAccept}
+          >
             {"Accept" + (loading ? "ing" : "")}
           </button>
         )}

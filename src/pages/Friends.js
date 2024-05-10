@@ -11,8 +11,8 @@ export default function Friends() {
   let [friends, setFriends] = useState([]);
   let { dispatch, user } = useCoreDataContext();
 
-  //   const addFriendLink = `https://khata.netlify.app/addFriend?id=${user.uID}`;
-  const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
+  const addFriendLink = `http://localhost:3000/addFriend?id=${user.uId}`;
+  // const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
 
   useEffect(() => {
     // fetch friends
@@ -28,7 +28,7 @@ export default function Friends() {
     fetch(url, {
       method: "GET",
       headers: {
-        // Authorization: `Bearer ${user.autoken}`,
+        Authorization: `Bearer ${user.autoken}`,
       },
     })
       .then((res) => {
@@ -102,8 +102,8 @@ export default function Friends() {
         </button>
       </div>
       <div className="friends-list">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Friend key={i} type={type} />
+        {friends.map((friend) => (
+          <Friend key={friend.uId} data={friend} type={type} />
         ))}
       </div>
     </div>
