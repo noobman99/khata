@@ -2,13 +2,12 @@
   width: 100%;
   height: 100svh;
   z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.loader.asbody {
-  z-index: inherit;
-  height: calc(100svh - 110px);
 }
 
 .loader .loader-box {

@@ -57,34 +57,31 @@ export const dataReducer = (state, action) => {
 
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, dataTemplate);
-  let [isLoading, setIsLoading] = useState(true);
+  let [isLoading, setIsLoading] = useState(false);
+  let [isInit, setIsInit] = useState(true);
+  let [transactionsFetched, setTransactionsFetched] = useState(false);
 
   const fetchTransactions = (user, config) => {
+    if (transactionsFetched) return;
+
     LoadTransactions(user, dispatch, config);
+    setIsLoading(true);
+    setTransactionsFetched(true);
   };
 
   // console.log(isLoading);
 
   useEffect(() => {
-    const onComplete = () => {
-      setIsLoading(false);
-    };
-    let config = { ignore: false, onComplete };
-
     let user_data = localStorage.getItem(process.env.REACT_APP_TOKEN);
     if (user_data) {
       let { user, categories } = JSON.parse(user_data);
       dispatch({ type: "Set_User", payload: user });
       dispatch({ type: "Set_Categories", payload: categories });
       // load transactions from server
-      fetchTransactions(user, config);
-    } else {
-      onComplete();
+      // fetchTransactions(user, config);
     }
 
-    return () => {
-      config.ignore = true;
-    };
+    setIsInit(false);
   }, []);
 
   return (
@@ -95,6 +92,7 @@ export const CoreDataContextProvider = ({ children }) => {
         fetchTransactions,
         isLoading,
         setIsLoading,
+        isInit,
       }}
     >
       {children}

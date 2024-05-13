@@ -10,7 +10,7 @@ import {
 } from "../components/ValidityChecks";
 
 export default function Login(props) {
-  let { dispatch, fetchTransactions, setIsLoading } = useCoreDataContext();
+  let { dispatch, setIsLoading } = useCoreDataContext();
 
   let [userData, setUserData] = useState({
     username: "",
@@ -131,22 +131,6 @@ export default function Login(props) {
 
             setLoading(false);
             setUserData({ username: "", email: "", password: "" });
-
-            if (mode) {
-              let toastID = toast.success(
-                "Please wait while we load your transactions."
-              );
-              fetchTransactions(user, {
-                ignore: false,
-                onComplete: () => {
-                  setTimeout(() => {
-                    setIsLoading(false);
-                    toast.dismiss(toastID);
-                  }, 500);
-                },
-              });
-              setIsLoading(true);
-            }
 
             toast.success("Welcome " + user.username);
           });

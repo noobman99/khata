@@ -13,7 +13,14 @@ import {
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  let { transactions, user, categories, dispatch } = useCoreDataContext();
+  let {
+    transactions,
+    user,
+    categories,
+    dispatch,
+    fetchTransactions,
+    setIsLoading,
+  } = useCoreDataContext();
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -40,6 +47,20 @@ export default function Editor(props) {
       }
     }
   }, [id, props.type, navigate, transactions]);
+
+  useEffect(() => {
+    let config = {
+      ignore: false,
+      onComplete: () => {
+        setIsLoading(false);
+      },
+    };
+    fetchTransactions(user, config);
+
+    return () => {
+      config.ignore = true;
+    };
+  }, []);
 
   const handleChange = (e) => {
     setData({

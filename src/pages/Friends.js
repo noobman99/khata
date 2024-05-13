@@ -18,6 +18,8 @@ export default function Friends() {
     setFriends((prev) => prev.filter((friend) => friend.uId !== id));
   };
 
+  console.log("friendsss");
+
   useEffect(() => {
     // fetch friends
     let url = process.env.REACT_APP_BACKEND + "/profile";
