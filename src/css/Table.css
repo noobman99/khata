@@ -43,6 +43,12 @@
   transition-duration: 0.2s;
 }
 
+.transaction-table tbody tr.income-row {
+  background-color: rgba(179, 255, 179, 0.2);
+  color: var(--font-green);
+  filter: brightness(0.9) contrast(1.1);
+}
+
 .transaction-table th,
 .transaction-table td {
   padding: 12px 15px;

@@ -71,10 +71,18 @@ const TableRow = (props) => {
 
   return (
     <>
-      <tr className={props.className} onClick={toggleCollapse}>
+      <tr
+        className={
+          props.className + (props.data.isexpense ? "" : " income-row")
+        }
+        onClick={toggleCollapse}
+      >
         <td>{props.data.date}</td>
         <td>{props.data.reason}</td>
-        <td>{props.data.amount}</td>
+        <td>
+          {props.data.isexpense ? "" : "+"}
+          {props.data.amount}
+        </td>
         <td className="smscr-only">
           <i
             className={
