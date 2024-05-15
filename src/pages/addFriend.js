@@ -1,4 +1,4 @@
-import { Navigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ export default function AddFriend() {
   let [query] = useSearchParams();
   let friendId = query.get("id");
   let { dispatch, user } = useCoreDataContext();
+  const navigate = useNavigate();
 
   if (!friendId) {
     toast.error("Invalid url.");
@@ -48,7 +49,7 @@ export default function AddFriend() {
       })
       .finally(() => {
         setTimeout(() => {
-          window.close();
+          navigate("/friends", { replace: true });
         }, 1000);
       });
   }, [friendId]);

@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 export default function Friend({ type, data, removeEntry }) {
   let [loading, setLoading] = useState(false);
+  let [isAccepting, setIsAccepting] = useState(false);
   let { dispatch, user } = useCoreDataContext();
 
   const handleReject = () => {
@@ -60,6 +61,7 @@ export default function Friend({ type, data, removeEntry }) {
   const handleAccept = () => {
     let url = process.env.REACT_APP_BACKEND + "/profile/acceptfriend";
     setLoading(true);
+    setIsAccepting(true);
 
     fetch(url, {
       method: "POST",
@@ -115,8 +117,8 @@ export default function Friend({ type, data, removeEntry }) {
           onClick={handleReject}
         >
           {type
-            ? "Remov" + (loading ? "ing" : "e")
-            : "Reject" + (loading ? "ing" : "")}
+            ? "Remov" + (loading && !isAccepting ? "ing" : "e")
+            : "Reject" + (loading && !isAccepting ? "ing" : "")}
         </button>
         {type ? (
           <></>
@@ -126,7 +128,7 @@ export default function Friend({ type, data, removeEntry }) {
             disabled={loading}
             onClick={handleAccept}
           >
-            {"Accept" + (loading ? "ing" : "")}
+            {"Accept" + (loading && isAccepting ? "ing" : "")}
           </button>
         )}
       </div>
