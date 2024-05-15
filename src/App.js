@@ -65,12 +65,20 @@ function App() {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/cancel-reset" element={<CancelReset />} />
             <Route
-              path="/edit/:id"
+              path="/transactions/edit/:id"
               element={user ? <Editor type="edit" /> : <Navigate to="/login" />}
             />
             <Route
-              path="/new"
+              path="/transactions/new"
               element={user ? <Editor type="new" /> : <Navigate to="/login" />}
+            />
+            {/* <Route
+                path="/profile"
+                element={user ? <Profile /> : <Navigate to={"/login"} />}
+              /> */}
+            <Route
+              path="/transactions"
+              element={user ? <Transactions /> : <Navigate to="/login" />}
             />
             <Route
               path="/friends"
@@ -80,14 +88,7 @@ function App() {
               path="/addfriend"
               element={user ? <AddFriend /> : <Navigate to="/login" />}
             />
-            {/* <Route
-                path="/profile"
-                element={user ? <Profile /> : <Navigate to={"/login"} />}
-              /> */}
-            <Route
-              path="/"
-              element={user ? <Transactions /> : <Navigate to="/login" />}
-            />
+            <Route path="/" element={<Navigate to="/transactions" />} />
           </Routes>
         </section>
       </Router>

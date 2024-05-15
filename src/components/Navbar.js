@@ -20,7 +20,7 @@ export default function Navbar() {
       <div className="navigation">
         {user ? (
           <>
-            <Link to="/new">Add</Link>
+            <Link to="/transactions/new">Add</Link>
             <Link to="/friends">Friends</Link>
             <Link to="/login" onClick={logout}>
               Logout

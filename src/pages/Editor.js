@@ -43,7 +43,7 @@ export default function Editor(props) {
         setData(req_val);
       } else {
         toast.error("Undefined transaction!");
-        navigate("/", { replace: true });
+        navigate("/transactions", { replace: true });
       }
     }
   }, [id, props.type, navigate, transactions]);
@@ -71,7 +71,7 @@ export default function Editor(props) {
 
   const redir = (e) => {
     e.preventDefault();
-    navigate("/", { replace: true });
+    navigate("/transactions", { replace: true });
   };
 
   const submitForm = (e) => {
@@ -126,7 +126,7 @@ export default function Editor(props) {
             toast.success(
               (props.type === "edit" ? "Edited" : "Added new") + " transaction."
             );
-            navigate("/", { replace: true });
+            navigate("/transactions", { replace: true });
           });
         } else if (res.status === 800 || res.status === 801) {
           res.json().then((res_data) => {
@@ -140,7 +140,7 @@ export default function Editor(props) {
         } else {
           res.json().then((res_data) => {
             toast.error(res_data.error);
-            navigate("/", { replace: true });
+            navigate("/transactions", { replace: true });
           });
         }
       })
