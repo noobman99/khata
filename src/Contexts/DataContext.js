@@ -23,14 +23,14 @@ export const dataReducer = (state, action) => {
       return {
         ...state,
         transactions: state.transactions.filter(
-          (row) => row.rowid !== action.payload
+          (row) => row.id !== action.payload
         ),
       };
     case "Edit_Transaction":
       return {
         ...state,
         transactions: state.transactions.map((row) =>
-          row.rowid === action.payload.rowid ? action.payload : row
+          row.id === action.payload.id ? action.payload : row
         ),
       };
     case "Set_User":

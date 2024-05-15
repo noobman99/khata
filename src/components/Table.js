@@ -21,7 +21,7 @@ const TableHeader = (props) => {
 
 const TableRow = (props) => {
   const API_URL =
-    process.env.REACT_APP_BACKEND + "/transactions/" + props.data.rowid;
+    process.env.REACT_APP_BACKEND + "/transactions/" + props.data.id;
 
   const [expanded, setExpanded] = useState(false);
   const toggleCollapse = () => {
@@ -29,8 +29,8 @@ const TableRow = (props) => {
   };
 
   let { user, dispatch } = useCoreDataContext();
-  const onDel = (rowid) => {
-    dispatch({ type: "Del_Transaction", payload: rowid });
+  const onDel = (id) => {
+    dispatch({ type: "Del_Transaction", payload: id });
   };
 
   const deleteTransaction = () => {
@@ -43,7 +43,7 @@ const TableRow = (props) => {
       })
         .then((res) => {
           if (res.ok) {
-            onDel(props.data.rowid);
+            onDel(props.data.id);
             toast.success("Deleted transaction successfully.");
           } else if (res.status === 800 || res.status === 801) {
             res.json().then((res_data) => {
@@ -91,7 +91,7 @@ const TableRow = (props) => {
           <Link
             to={
               "/transactions/edit/" +
-              props.data.rowid +
+              props.data.id +
               "?type=" +
               (props.data.isexpense ? "expense" : "income")
             }
@@ -116,7 +116,7 @@ const TableRow = (props) => {
           <Link
             to={
               "/transactions/edit/" +
-              props.data.rowid +
+              props.data.id +
               "?type=" +
               (props.data.isexpense ? "expense" : "income")
             }

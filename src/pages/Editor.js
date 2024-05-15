@@ -67,7 +67,7 @@ export default function Editor(props) {
     }
 
     if (props.type === "edit") {
-      let req_val = transactions.filter((val) => val.rowid === Number(id))[0];
+      let req_val = transactions.filter((val) => val.id === Number(id))[0];
       if (req_val) {
         setData(req_val);
       } else {
@@ -128,7 +128,7 @@ export default function Editor(props) {
                 payload: data,
               };
             } else {
-              formdata.rowid = res_data.insertId;
+              formdata.id = res_data.insertId;
               action = {
                 type: "Add_Transaction",
                 payload: formdata,

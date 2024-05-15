@@ -39,8 +39,8 @@ export default function Transactions(props) {
     setShowFilters(!showFilters);
   };
 
-  // const onDel = (rowid) => {
-  //   props.setData(props.data.filter((row) => row.rowid !== rowid));
+  // const onDel = (id) => {
+  //   props.setData(props.data.filter((row) => row.id !== id));
   // };
 
   return (
