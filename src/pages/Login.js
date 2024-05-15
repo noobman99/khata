@@ -45,6 +45,10 @@ export default function Login(props) {
     setPassVisible(!passVisible);
   };
 
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
+
   // set mode to login if type is login
   useEffect(() => {
     if (props.type === "login") {
