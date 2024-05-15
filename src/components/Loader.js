@@ -6,7 +6,7 @@ export default function Loader({ asBody = false }) {
     <div className={"loader" + (asBody ? " asbody" : "")}>
       <div className="loader-box">
         <div className="loader-spinner"></div>
-        <img src={logo} alt="" />
+        <img src={logo} alt="MyKhataApp" />
       </div>
     </div>
   );

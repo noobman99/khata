@@ -64,6 +64,8 @@ export const CoreDataContextProvider = ({ children }) => {
   const fetchTransactions = (user, config) => {
     if (transactionsFetched) return;
 
+    console.log("fetching transaction");
+
     LoadTransactions(user, dispatch, config);
     setIsLoading(true);
     setTransactionsFetched(true);

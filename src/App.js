@@ -45,7 +45,7 @@ function App() {
         pauseOnHover
         theme="dark"
       />
-      {isLoading && <Loader />}
+      {isLoading ? <Loader /> : <> </>}
       <Router>
         <Navbar />
         <section className="khata-body">
