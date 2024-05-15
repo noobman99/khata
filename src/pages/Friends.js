@@ -25,6 +25,8 @@ export default function Friends() {
     let url = process.env.REACT_APP_BACKEND + "/profile";
     let ignore = false;
 
+    setFriends([]);
+
     if (type) {
       url += "/friends";
     } else {
