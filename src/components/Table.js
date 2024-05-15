@@ -89,7 +89,12 @@ const TableRow = (props) => {
             <i className="fa-regular fa-trash-can" />
           </button>
           <Link
-            to={"/transactions/edit/" + props.data.rowid}
+            to={
+              "/transactions/edit/" +
+              props.data.rowid +
+              "?type=" +
+              (props.data.isexpense ? "expense" : "income")
+            }
             className="table-control-button"
           >
             <i className="fa-solid fa-pen" />
@@ -109,7 +114,12 @@ const TableRow = (props) => {
             <i className="fa-regular fa-trash-can" />
           </button>
           <Link
-            to={"/transactions/edit/" + props.data.rowid}
+            to={
+              "/transactions/edit/" +
+              props.data.rowid +
+              "?type=" +
+              (props.data.isexpense ? "expense" : "income")
+            }
             className="table-control-button"
           >
             <i className="fa-solid fa-pen" />

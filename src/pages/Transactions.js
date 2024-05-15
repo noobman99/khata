@@ -15,6 +15,8 @@ export default function Transactions(props) {
   let [transactions, setTransactions] = useState(coreTransactions);
   let [showFilters, setShowFilters] = useState(false);
 
+  console.log(transactions);
+
   useEffect(() => {
     setTransactions(coreTransactions);
   }, [coreTransactions]);

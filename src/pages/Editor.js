@@ -1,4 +1,9 @@
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import "../css/Editor.css";
 import { useEffect, useState } from "react";
 import Dropdown from "../components/Dropdown";
@@ -22,6 +27,7 @@ export default function Editor(props) {
     categories,
     dispatch,
     fetchTransactions,
+    isLoading,
     setIsLoading,
   } = useCoreDataContext();
 
@@ -42,18 +48,6 @@ export default function Editor(props) {
   let req_type = props.type === "edit" ? "PUT" : "POST";
 
   useEffect(() => {
-    if (props.type === "edit") {
-      let req_val = transactions.filter((val) => val.rowid === Number(id))[0];
-      if (req_val) {
-        setData(req_val);
-      } else {
-        toast.error("Undefined transaction!");
-        navigate("/transactions", { replace: true });
-      }
-    }
-  }, [id, props.type, navigate, transactions]);
-
-  useEffect(() => {
     let config = {
       ignore: false,
       onComplete: () => {
@@ -66,6 +60,22 @@ export default function Editor(props) {
       config.ignore = true;
     };
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
+    if (props.type === "edit") {
+      let req_val = transactions.filter((val) => val.rowid === Number(id))[0];
+      if (req_val) {
+        setData(req_val);
+      } else {
+        toast.error("Undefined transaction!");
+        navigate("/transactions", { replace: true });
+      }
+    }
+  }, [id, props.type, navigate, transactions]);
 
   const handleChange = (e) => {
     setData({
@@ -96,7 +106,7 @@ export default function Editor(props) {
     }
 
     let formdata = { ...data };
-    formdata.type = transactionType;
+    formdata.isexpense = transactionType === "expense" ? 1 : 0;
 
     fetch(API_URL, {
       method: req_type,
@@ -118,10 +128,10 @@ export default function Editor(props) {
                 payload: data,
               };
             } else {
-              data.rowid = res_data.insertId;
+              formdata.rowid = res_data.insertId;
               action = {
                 type: "Add_Transaction",
-                payload: data,
+                payload: formdata,
               };
             }
             dispatch(action);
@@ -164,7 +174,11 @@ export default function Editor(props) {
       });
   };
 
-  if (transactionType === null) {
+  if (transactionType !== "income" && transactionType !== "expense") {
+    if (props.type === "edit") {
+      toast.error("Undefined transaction!");
+      return <Navigate to="/transactions" replace={true} />;
+    }
     return <ChoiceBox />;
   }
 
