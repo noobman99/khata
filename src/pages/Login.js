@@ -131,7 +131,7 @@ export default function Login(props) {
 
             setLoading(false);
             setUserData({ username: "", email: "", password: "" });
-
+            setIsLoading(true);
             toast.success("Welcome " + user.username);
           });
         } else {

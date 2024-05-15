@@ -9,7 +9,7 @@ export default function Friends() {
   // type 0 = friend requests
   // type 1 = friends
   let [friends, setFriends] = useState([]);
-  let { dispatch, user } = useCoreDataContext();
+  let { dispatch, user, setIsLoading } = useCoreDataContext();
 
   const addFriendLink = `http://localhost:3000/addFriend?id=${user.uId}`;
   // const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
@@ -22,6 +22,8 @@ export default function Friends() {
 
   useEffect(() => {
     // fetch friends
+    setIsLoading(false);
+
     let url = process.env.REACT_APP_BACKEND + "/profile";
     let ignore = false;
 

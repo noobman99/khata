@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validPassword } from "../components/ValidityChecks";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import "../css/ResetPassword.css";
 import { toast } from "react-toastify";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 export default function ResetPassword() {
   let [password, setPassword] = useState("");
@@ -12,6 +13,8 @@ export default function ResetPassword() {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
   const navigate = useNavigate();
+
+  let { setIsLoading } = useCoreDataContext();
 
   console.log(token, email);
 
@@ -56,6 +59,10 @@ export default function ResetPassword() {
         // console.log(err);
       });
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   if (!token || !email) {
     return <Navigate to="/login" />;

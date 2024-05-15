@@ -57,7 +57,7 @@ export const dataReducer = (state, action) => {
 
 export const CoreDataContextProvider = ({ children }) => {
   let [coreData, dispatch] = useReducer(dataReducer, dataTemplate);
-  let [isLoading, setIsLoading] = useState(false);
+  let [isLoading, setIsLoading] = useState(true);
   let [isInit, setIsInit] = useState(true);
   let [transactionsFetched, setTransactionsFetched] = useState(false);
 

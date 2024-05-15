@@ -7,7 +7,7 @@ import useCoreDataContext from "../Hooks/useCoreDataContext";
 export default function AddFriend() {
   let [query] = useSearchParams();
   let friendId = query.get("id");
-  let { dispatch, user } = useCoreDataContext();
+  let { dispatch, user, setIsLoading } = useCoreDataContext();
   const navigate = useNavigate();
 
   if (!friendId) {
@@ -17,6 +17,7 @@ export default function AddFriend() {
 
   useEffect(() => {
     let url = process.env.REACT_APP_BACKEND + "/profile/addfriend";
+    setIsLoading(false);
 
     fetch(url, {
       method: "POST",

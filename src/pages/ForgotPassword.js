@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { validEmail } from "../components/ValidityChecks";
 import "../css/ForgotPassword.css";
 import { useNavigate } from "react-router-dom";
+import useCoreDataContext from "../Hooks/useCoreDataContext";
 
 export default function ForgotPassword() {
   let [email, setEmail] = useState("");
   const navigate = useNavigate();
   let [loading, setLoading] = useState(false);
+  let { setIsLoading } = useCoreDataContext();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -43,6 +45,10 @@ export default function ForgotPassword() {
         // console.log(err);
       });
   }
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   return (
     <div className="forgot-password">
