@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import "../css/Editor.css";
 import { useEffect, useState } from "react";
 import Dropdown from "../components/Dropdown";
@@ -9,10 +9,13 @@ import {
   validAmount,
   validText,
 } from "../components/ValidityChecks";
+import ChoiceBox from "../components/ChoiceBox";
 
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
+  let [URLSearchParams] = useSearchParams();
+  let transactionType = URLSearchParams.get("type");
   let {
     transactions,
     user,
@@ -21,6 +24,8 @@ export default function Editor(props) {
     fetchTransactions,
     setIsLoading,
   } = useCoreDataContext();
+
+  console.log(transactionType);
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
@@ -90,9 +95,12 @@ export default function Editor(props) {
       return;
     }
 
+    let formdata = { ...data };
+    formdata.type = transactionType;
+
     fetch(API_URL, {
       method: req_type,
-      body: JSON.stringify(data),
+      body: JSON.stringify(formdata),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
         Authorization: `Bearer ${user.autoken}`,
@@ -156,12 +164,18 @@ export default function Editor(props) {
       });
   };
 
+  if (transactionType === null) {
+    return <ChoiceBox />;
+  }
+
   return (
     <div className="new-transaction">
       <header>
         <h1>
           <span>{props.type.slice(0, 1).toUpperCase()}</span>
-          {props.type.slice(1)} <span>T</span>ransaction
+          {props.type.slice(1)}{" "}
+          <span>{transactionType.at(0).toUpperCase()}</span>
+          {transactionType.slice(1, transactionType.length)}
         </h1>
       </header>
       <form className="new-transaction-form" onSubmit={submitForm}>
@@ -184,7 +198,11 @@ export default function Editor(props) {
             value={data.reason}
             required
           />
-          <label>Expenditure For</label>
+          <label>
+            {transactionType.at(0).toUpperCase() +
+              transactionType.slice(1, transactionType.length)}{" "}
+            For
+          </label>
         </div>
         <div className="input-group">
           <input
