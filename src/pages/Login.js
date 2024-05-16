@@ -19,7 +19,7 @@ export default function Login(props) {
   });
 
   // mode = 1 => login else signup
-  let [mode, setMode] = useState(props.type === "login");
+  let [mode, setMode] = useState(props.type === "login" ? 1 : 0);
   let [passVisible, setPassVisible] = useState(false);
   let [loading, setLoading] = useState(false);
   let passRef = useRef(null);
@@ -48,9 +48,9 @@ export default function Login(props) {
   // set mode to login if type is login
   useEffect(() => {
     if (props.type === "login") {
-      setMode(true);
+      setMode(1);
     } else {
-      setMode(false);
+      setMode(0);
     }
   }, [props.type]);
 
