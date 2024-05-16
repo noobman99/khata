@@ -110,7 +110,11 @@ const TableRow = (props) => {
         </td>
       </tr>
       <tr
-        className={props.className + " smscr-only"}
+        className={
+          props.className +
+          " smscr-only" +
+          (props.data.isexpense ? "" : " income-row")
+        }
         style={{ visibility: expanded ? "visible" : "collapse" }}
       >
         <td>

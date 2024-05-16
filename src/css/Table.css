@@ -44,9 +44,22 @@
 }
 
 .transaction-table tbody tr.income-row {
-  background-color: rgba(179, 255, 179, 0.2);
   color: var(--font-green);
   filter: brightness(0.9) contrast(1.1);
+}
+.transaction-table tbody tr.odd.income-row {
+  background-color: rgba(179, 255, 179, 0.33);
+}
+.transaction-table tbody tr.even.income-row {
+  background-color: rgba(179, 255, 179, 0.22);
+}
+.transaction-table tbody tr.income-row.odd:hover,
+.transaction-table tbody tr.income-row.even:hover,
+.transaction-table tbody tr.income-row.income-row.odd:hover + tr.odd,
+.transaction-table tbody tr.income-row.even:hover + tr.even,
+.transaction-table tbody tr.income-row.odd:has(+ tr.odd:hover),
+.transaction-table tbody tr.income-row.even:has(+ tr.even:hover) {
+  background-color: rgba(161, 251, 161, 0.44);
 }
 
 .transaction-table th,
