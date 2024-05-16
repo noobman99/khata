@@ -135,8 +135,8 @@
 
 @media (max-width: 500px) {
   .transaction-table {
-    width: 90%;
-    font-size: 0.83em;
+    width: 95%;
+    font-size: 0.85em;
   }
   .td-controls button,
   .td-controls a {
@@ -147,7 +147,6 @@
 
 @media (max-width: 350px) {
   .transaction-table {
-    width: 95%;
     font-size: 0.7em;
   }
 }

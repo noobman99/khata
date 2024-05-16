@@ -21,7 +21,7 @@
 
 .friend-link > div {
   font-size: 1em;
-  max-width: max(80%, 280px);
+  max-width: max(80%, 250px);
   overflow: auto;
   color: rgb(245, 244, 234);
   padding: 5px 10px;
@@ -78,4 +78,27 @@
   width: 50%;
   margin: 0 auto;
   gap: 10px;
+}
+
+@media (max-width: 750px) {
+  .friends-list {
+    width: 80%;
+  }
+}
+
+@media (max-width: 400px) {
+  .friends-page > header {
+    font-size: 1.5em;
+  }
+
+  .friend-link {
+    font-size: 0.9rem;
+  }
+  .friends-toggle button {
+    font-size: 1.1em;
+  }
+
+  .friends-list {
+    width: 95%;
+  }
 }

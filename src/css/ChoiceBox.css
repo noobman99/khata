@@ -4,7 +4,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: var(--cream);
-  width: fit-content;
+  width: min(90%, 400px);
   border-radius: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
@@ -20,6 +20,7 @@
   margin-bottom: 5px;
   margin-inline: 10px;
   width: fit-content;
+  text-align: center;
 }
 
 .choice-box a {

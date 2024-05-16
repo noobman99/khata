@@ -31,7 +31,7 @@ nav > .logo {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 1em;
   text-decoration: none;
   color: var(--font-light-green);
   border: 1px solid var(--font-light-green);
@@ -44,4 +44,16 @@ nav > .logo {
   border-color: var(--font-green);
   box-shadow: 0 0 2px var(--font-light-green), inset 0 0 2px var(--font-green);
   scale: 1.05;
+}
+
+@media (max-width: 450px) {
+  .navigation {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .navigation {
+    font-size: 0.7rem;
+  }
 }
