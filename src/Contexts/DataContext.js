@@ -5,6 +5,7 @@ const dataTemplate = {
   user: null,
   transactions: [],
   expCategories: ["Food", "Travel", "Shopping"],
+  incCategories: [],
 };
 
 export const CoreDataContext = createContext({});
@@ -45,11 +46,20 @@ export const dataReducer = (state, action) => {
           ...state.expCategories,
           ...action.payload.expCategories,
         ],
+        incCategories: [
+          ...state.incCategories,
+          ...action.payload.incCategories,
+        ],
       };
     case "New_Exp_Category":
       return {
         ...state,
         expCategories: [...state.expCategories, action.payload],
+      };
+    case "New_Inc_Category":
+      return {
+        ...state,
+        incCategories: [...state.incCategories, action.payload],
       };
     case "Clear_Data":
       return dataTemplate;
