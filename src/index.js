@@ -6,9 +6,7 @@ import { CoreDataContextProvider } from "./Contexts/DataContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <CoreDataContextProvider>
-      <App />
-    </CoreDataContextProvider>
-  </React.StrictMode>
+  <CoreDataContextProvider>
+    <App />
+  </CoreDataContextProvider>
 );

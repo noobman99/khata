@@ -1,0 +1,104 @@
+.friends-page {
+  width: 100%;
+}
+
+.friends-page > header {
+  text-align: center;
+  margin: 20px 0;
+  font-size: var(--header-size);
+  color: var(--cream);
+}
+
+.friends-page > header span {
+  color: var(--background-green);
+}
+
+.friend-link {
+  display: flex;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.friend-link > div {
+  font-size: 1em;
+  max-width: max(80%, 250px);
+  overflow: auto;
+  color: rgb(245, 244, 234);
+  padding: 5px 10px;
+  background-color: var(--dark-grey);
+  border: 1px solid var(--cream);
+  border-radius: 5px 0 0 5px;
+  position: relative;
+}
+
+.friend-link > button {
+  font-size: 1em;
+  padding: 5px 10px;
+  width: 50px;
+  border: 1px solid var(--cream);
+  background-color: var(--cream);
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+}
+
+.friends-toggle {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.friends-toggle button {
+  font-size: 1.2em;
+  margin: 0 10px;
+  padding: 5px 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: var(--cream);
+  color: var(--background-gray);
+  box-shadow: 0 0 10px rgb(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition-duration: 0.5s;
+  filter: brightness(1.1) contrast(1.1);
+}
+.friends-toggle button.active {
+  background-color: var(--background-green);
+  color: var(--cream);
+}
+
+.friends-toggle button:hover {
+  background-color: var(--background-green);
+  color: var(--cream);
+  filter: brightness(1.2) contrast(1.2) saturate(0.9);
+  box-shadow: 0 0 10px rgb(255, 255, 255, 0.2);
+}
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+  gap: 10px;
+}
+
+@media (max-width: 750px) {
+  .friends-list {
+    width: 80%;
+  }
+}
+
+@media (max-width: 400px) {
+  .friends-page > header {
+    font-size: 1.5em;
+  }
+
+  .friend-link {
+    font-size: 0.9rem;
+  }
+  .friends-toggle button {
+    font-size: 1.1em;
+  }
+
+  .friends-list {
+    width: 95%;
+  }
+}

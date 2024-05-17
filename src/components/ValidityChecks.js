@@ -58,9 +58,13 @@ function validAmount(amount) {
 
 function validText(text, type) {
   const specialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+  let a = "abc";
 
   if (text.match(specialChar)) {
     toast.error(`${type} must only contain letters and numbers!`);
+    return false;
+  } else if (text.trim().length === 0) {
+    toast.error(`${type} cannot be empty`);
     return false;
   } else {
     return true;

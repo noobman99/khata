@@ -6,20 +6,41 @@ import { useState, useEffect } from "react";
 
 export default function Transactions(props) {
   const headers = ["Date", "Description", "Amount", "Category", "Controls"];
-  let { transactions: coreTransactions } = useCoreDataContext();
+  let {
+    fetchTransactions,
+    setIsLoading,
+    user,
+    transactions: coreTransactions,
+  } = useCoreDataContext();
   let [transactions, setTransactions] = useState(coreTransactions);
   let [showFilters, setShowFilters] = useState(false);
+
+  console.log(transactions);
 
   useEffect(() => {
     setTransactions(coreTransactions);
   }, [coreTransactions]);
 
+  useEffect(() => {
+    let config = {
+      ignore: false,
+      onComplete: () => {
+        setIsLoading(false);
+      },
+    };
+    fetchTransactions(user, config);
+
+    return () => {
+      config.ignore = true;
+    };
+  }, []);
+
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
 
-  // const onDel = (rowid) => {
-  //   props.setData(props.data.filter((row) => row.rowid !== rowid));
+  // const onDel = (id) => {
+  //   props.setData(props.data.filter((row) => row.id !== id));
   // };
 
   return (

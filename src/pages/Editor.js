@@ -1,4 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import "../css/Editor.css";
 import { useEffect, useState } from "react";
 import Dropdown from "../components/Dropdown";
@@ -9,17 +14,34 @@ import {
   validAmount,
   validText,
 } from "../components/ValidityChecks";
+import ChoiceBox from "../components/ChoiceBox";
 
 export default function Editor(props) {
   const navigate = useNavigate();
   const { id } = useParams();
-  let { transactions, user, categories, dispatch } = useCoreDataContext();
+  let [URLSearchParams] = useSearchParams();
+  let transactionType = URLSearchParams.get("type");
+  let {
+    transactions,
+    user,
+    expCategories,
+    incCategories,
+    dispatch,
+    fetchTransactions,
+    isLoading,
+    setIsLoading,
+  } = useCoreDataContext();
+
+  console.log(transactionType);
 
   let [data, setData] = useState({
     date: new Date().toISOString().split("T")[0],
     reason: "",
     amount: "",
-    category: "Food",
+    category:
+      transactionType === "expense"
+        ? expCategories[0] || ""
+        : incCategories[0] || "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -30,13 +52,31 @@ export default function Editor(props) {
   let req_type = props.type === "edit" ? "PUT" : "POST";
 
   useEffect(() => {
+    let config = {
+      ignore: false,
+      onComplete: () => {
+        setIsLoading(false);
+      },
+    };
+    fetchTransactions(user, config);
+
+    return () => {
+      config.ignore = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    }
+
     if (props.type === "edit") {
-      let req_val = transactions.filter((val) => val.rowid === Number(id))[0];
+      let req_val = transactions.filter((val) => val.id === Number(id))[0];
       if (req_val) {
         setData(req_val);
       } else {
         toast.error("Undefined transaction!");
-        navigate("/", { replace: true });
+        navigate("/transactions", { replace: true });
       }
     }
   }, [id, props.type, navigate, transactions]);
@@ -50,7 +90,7 @@ export default function Editor(props) {
 
   const redir = (e) => {
     e.preventDefault();
-    navigate("/", { replace: true });
+    navigate("/transactions", { replace: true });
   };
 
   const submitForm = (e) => {
@@ -69,9 +109,12 @@ export default function Editor(props) {
       return;
     }
 
+    let formdata = { ...data };
+    formdata.isexpense = transactionType === "expense" ? 1 : 0;
+
     fetch(API_URL, {
       method: req_type,
-      body: JSON.stringify(data),
+      body: JSON.stringify(formdata),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
         Authorization: `Bearer ${user.autoken}`,
@@ -89,37 +132,49 @@ export default function Editor(props) {
                 payload: data,
               };
             } else {
-              data.rowid = res_data.insertId;
+              formdata.id = res_data.insertId;
               action = {
                 type: "Add_Transaction",
-                payload: data,
+                payload: formdata,
               };
             }
             dispatch(action);
-            if (!categories.includes(data.category)) {
+            if (
+              transactionType === "expense" &&
+              !expCategories.includes(data.category)
+            ) {
               dispatch({
-                type: "New_Category",
+                type: "New_Exp_Category",
+                payload: data.category,
+              });
+            }
+            if (
+              transactionType === "income" &&
+              !incCategories.includes(data.category)
+            ) {
+              dispatch({
+                type: "New_Inc_Category",
                 payload: data.category,
               });
             }
             toast.success(
               (props.type === "edit" ? "Edited" : "Added new") + " transaction."
             );
-            navigate("/", { replace: true });
+            navigate("/transactions", { replace: true });
           });
         } else if (res.status === 800 || res.status === 801) {
           res.json().then((res_data) => {
             toast.error(res_data.error + " Please login again.");
             localStorage.removeItem(process.env.REACT_APP_TOKEN);
             dispatch({ type: "Clear_Data" });
-            config.onComplete();
+            // config.onComplete();
           });
         } else if (res.status === 403) {
           toast.error("Please login to perform this operation.");
         } else {
           res.json().then((res_data) => {
             toast.error(res_data.error);
-            navigate("/", { replace: true });
+            navigate("/transactions", { replace: true });
           });
         }
       })
@@ -135,12 +190,22 @@ export default function Editor(props) {
       });
   };
 
+  if (transactionType !== "income" && transactionType !== "expense") {
+    if (props.type === "edit") {
+      toast.error("Undefined transaction!");
+      return <Navigate to="/transactions" replace={true} />;
+    }
+    return <ChoiceBox />;
+  }
+
   return (
     <div className="new-transaction">
       <header>
         <h1>
           <span>{props.type.slice(0, 1).toUpperCase()}</span>
-          {props.type.slice(1)} <span>T</span>ransaction
+          {props.type.slice(1)}{" "}
+          <span>{transactionType.at(0).toUpperCase()}</span>
+          {transactionType.slice(1, transactionType.length)}
         </h1>
       </header>
       <form className="new-transaction-form" onSubmit={submitForm}>
@@ -163,7 +228,11 @@ export default function Editor(props) {
             value={data.reason}
             required
           />
-          <label>Expenditure For</label>
+          <label>
+            {transactionType.at(0).toUpperCase() +
+              transactionType.slice(1, transactionType.length)}{" "}
+            For
+          </label>
         </div>
         <div className="input-group">
           <input
@@ -180,7 +249,7 @@ export default function Editor(props) {
         <Dropdown
           className="input-group"
           label="Category"
-          list={categories}
+          list={transactionType === "expense" ? expCategories : incCategories}
           data={data.category}
           name="category"
           onChange={(val) => {

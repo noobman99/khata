@@ -21,7 +21,7 @@ const TableHeader = (props) => {
 
 const TableRow = (props) => {
   const API_URL =
-    process.env.REACT_APP_BACKEND + "/transactions/" + props.data.rowid;
+    process.env.REACT_APP_BACKEND + "/transactions/" + props.data.id;
 
   const [expanded, setExpanded] = useState(false);
   const toggleCollapse = () => {
@@ -29,8 +29,8 @@ const TableRow = (props) => {
   };
 
   let { user, dispatch } = useCoreDataContext();
-  const onDel = (rowid) => {
-    dispatch({ type: "Del_Transaction", payload: rowid });
+  const onDel = (id) => {
+    dispatch({ type: "Del_Transaction", payload: id });
   };
 
   const deleteTransaction = () => {
@@ -43,7 +43,7 @@ const TableRow = (props) => {
       })
         .then((res) => {
           if (res.ok) {
-            onDel(props.data.rowid);
+            onDel(props.data.id);
             toast.success("Deleted transaction successfully.");
           } else if (res.status === 800 || res.status === 801) {
             res.json().then((res_data) => {
@@ -71,10 +71,18 @@ const TableRow = (props) => {
 
   return (
     <>
-      <tr className={props.className} onClick={toggleCollapse}>
+      <tr
+        className={
+          props.className + (props.data.isexpense ? "" : " income-row")
+        }
+        onClick={toggleCollapse}
+      >
         <td>{props.data.date}</td>
         <td>{props.data.reason}</td>
-        <td>{props.data.amount}</td>
+        <td>
+          {props.data.isexpense ? "" : "+"}
+          {props.data.amount}
+        </td>
         <td className="smscr-only">
           <i
             className={
@@ -89,7 +97,12 @@ const TableRow = (props) => {
             <i className="fa-regular fa-trash-can" />
           </button>
           <Link
-            to={"/edit/" + props.data.rowid}
+            to={
+              "/transactions/edit/" +
+              props.data.id +
+              "?type=" +
+              (props.data.isexpense ? "expense" : "income")
+            }
             className="table-control-button"
           >
             <i className="fa-solid fa-pen" />
@@ -97,7 +110,11 @@ const TableRow = (props) => {
         </td>
       </tr>
       <tr
-        className={props.className + " smscr-only"}
+        className={
+          props.className +
+          " smscr-only" +
+          (props.data.isexpense ? "" : " income-row")
+        }
         style={{ visibility: expanded ? "visible" : "collapse" }}
       >
         <td>
@@ -109,7 +126,12 @@ const TableRow = (props) => {
             <i className="fa-regular fa-trash-can" />
           </button>
           <Link
-            to={"/edit/" + props.data.rowid}
+            to={
+              "/transactions/edit/" +
+              props.data.id +
+              "?type=" +
+              (props.data.isexpense ? "expense" : "income")
+            }
             className="table-control-button"
           >
             <i className="fa-solid fa-pen" />

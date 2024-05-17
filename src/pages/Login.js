@@ -10,7 +10,7 @@ import {
 } from "../components/ValidityChecks";
 
 export default function Login(props) {
-  let { dispatch, fetchTransactions, setIsLoading } = useCoreDataContext();
+  let { dispatch, setIsLoading } = useCoreDataContext();
 
   let [userData, setUserData] = useState({
     username: "",
@@ -44,6 +44,10 @@ export default function Login(props) {
   const togglePassVisible = () => {
     setPassVisible(!passVisible);
   };
+
+  useEffect(() => {
+    setIsLoading(false);
+  }, []);
 
   // set mode to login if type is login
   useEffect(() => {
@@ -114,6 +118,7 @@ export default function Login(props) {
               username: data.username,
               autoken: data.token,
               email: data.email,
+              uId: data.uId,
             };
             dispatch({
               type: "Set_User",
@@ -121,32 +126,25 @@ export default function Login(props) {
             });
             dispatch({
               type: "Set_Categories",
-              payload: data.categories,
+              payload: {
+                expCategories: data.expCategories,
+                incCategories: data.incCategories,
+              },
             });
             localStorage.setItem(
               process.env.REACT_APP_TOKEN,
-              JSON.stringify({ user, categories: data.categories })
+              JSON.stringify({
+                user,
+                categories: {
+                  expCategories: data.expCategories,
+                  incCategories: data.incCategories,
+                },
+              })
             );
 
             setLoading(false);
             setUserData({ username: "", email: "", password: "" });
-
-            if (mode) {
-              let toastID = toast.success(
-                "Please wait while we load your transactions."
-              );
-              fetchTransactions(user, {
-                ignore: false,
-                onComplete: () => {
-                  setTimeout(() => {
-                    setIsLoading(false);
-                    toast.dismiss(toastID);
-                  }, 500);
-                },
-              });
-              setIsLoading(true);
-            }
-
+            setIsLoading(true);
             toast.success("Welcome " + user.username);
           });
         } else {
