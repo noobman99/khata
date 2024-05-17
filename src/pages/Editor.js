@@ -24,7 +24,8 @@ export default function Editor(props) {
   let {
     transactions,
     user,
-    categories,
+    expCategories,
+    incCategories,
     dispatch,
     fetchTransactions,
     isLoading,
@@ -37,7 +38,10 @@ export default function Editor(props) {
     date: new Date().toISOString().split("T")[0],
     reason: "",
     amount: "",
-    category: "Food",
+    category:
+      transactionType === "expense"
+        ? expCategories[0] || ""
+        : incCategories[0] || "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -135,9 +139,21 @@ export default function Editor(props) {
               };
             }
             dispatch(action);
-            if (!categories.includes(data.category)) {
+            if (
+              transactionType === "expense" &&
+              !expCategories.includes(data.category)
+            ) {
               dispatch({
-                type: "New_Category",
+                type: "New_Exp_Category",
+                payload: data.category,
+              });
+            }
+            if (
+              transactionType === "income" &&
+              !incCategories.includes(data.category)
+            ) {
+              dispatch({
+                type: "New_Inc_Category",
                 payload: data.category,
               });
             }
@@ -233,7 +249,7 @@ export default function Editor(props) {
         <Dropdown
           className="input-group"
           label="Category"
-          list={categories}
+          list={transactionType === "expense" ? expCategories : incCategories}
           data={data.category}
           name="category"
           onChange={(val) => {
