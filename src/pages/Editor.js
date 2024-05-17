@@ -24,7 +24,7 @@ export default function Editor(props) {
   let {
     transactions,
     user,
-    categories,
+    expCategories,
     dispatch,
     fetchTransactions,
     isLoading,
@@ -135,9 +135,9 @@ export default function Editor(props) {
               };
             }
             dispatch(action);
-            if (!categories.includes(data.category)) {
+            if (!expCategories.includes(data.category)) {
               dispatch({
-                type: "New_Category",
+                type: "New_Exp_Category",
                 payload: data.category,
               });
             }
@@ -233,7 +233,7 @@ export default function Editor(props) {
         <Dropdown
           className="input-group"
           label="Category"
-          list={categories}
+          list={expCategories}
           data={data.category}
           name="category"
           onChange={(val) => {

@@ -4,7 +4,7 @@ import LoadTransactions from "../components/LoadTransactions";
 const dataTemplate = {
   user: null,
   transactions: [],
-  categories: ["Food", "Travel", "Shopping"],
+  expCategories: ["Food", "Travel", "Shopping"],
 };
 
 export const CoreDataContext = createContext({});
@@ -41,12 +41,15 @@ export const dataReducer = (state, action) => {
     case "Set_Categories":
       return {
         ...state,
-        categories: [...state.categories, ...action.payload],
+        expCategories: [
+          ...state.expCategories,
+          ...action.payload.expCategories,
+        ],
       };
-    case "New_Category":
+    case "New_Exp_Category":
       return {
         ...state,
-        categories: [...state.categories, action.payload],
+        expCategories: [...state.expCategories, action.payload],
       };
     case "Clear_Data":
       return dataTemplate;

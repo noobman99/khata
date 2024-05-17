@@ -126,11 +126,14 @@ export default function Login(props) {
             });
             dispatch({
               type: "Set_Categories",
-              payload: data.categories,
+              payload: { expCategories: data.expCategories },
             });
             localStorage.setItem(
               process.env.REACT_APP_TOKEN,
-              JSON.stringify({ user, categories: data.categories })
+              JSON.stringify({
+                user,
+                categories: { expCategories: data.expCategories },
+              })
             );
 
             setLoading(false);
