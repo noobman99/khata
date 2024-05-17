@@ -11,7 +11,7 @@ export default function Friends() {
   let [friends, setFriends] = useState([]);
   let { dispatch, user, setIsLoading } = useCoreDataContext();
 
-  const addFriendLink = `http://localhost:3000/addFriend?id=${user.uId}`;
+  const addFriendLink = `${process.env.REACT_APP_FRONTEND_URL}/addFriend?id=${user.uId}`;
   // const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
 
   const removeEntry = (id) => {
@@ -19,6 +19,55 @@ export default function Friends() {
   };
 
   console.log("friendsss");
+
+  const copyLink = (e) => {
+    if (
+      typeof navigator !== undefined &&
+      typeof navigator.clipboard !== "undefined" &&
+      navigator.permissions !== "undefined"
+    ) {
+      navigator.permissions
+        .query({ name: "clipboard-write" })
+        .then((permission) => {
+          if (permission.state === "granted" || permission.state === "prompt") {
+            navigator.clipboard
+              .writeText(addFriendLink)
+              .then(() => {
+                toast.success("Successfully copied link.");
+              })
+              .catch((e) => {
+                console.log(e);
+                toast.error("Cannot copy link.");
+              });
+          } else {
+            toast.error("Cannot copy link due to insufficient permissions.");
+          }
+        });
+    } else if (
+      document.queryCommandSupported &&
+      document.queryCommandSupported("copy")
+    ) {
+      var textarea = document.createElement("textarea");
+      textarea.textContent = addFriendLink;
+      textarea.style.height = 0;
+      textarea.style.width = 0;
+      textarea.style.opacity = 0;
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+        toast.success("Successfully copied link.");
+      } catch (e) {
+        console.log(e);
+        document.body.removeChild(textarea);
+        toast.error("Cannot copy link.");
+      }
+    } else {
+      toast.error("Cannot copy link.");
+    }
+  };
 
   useEffect(() => {
     // fetch friends
@@ -84,12 +133,7 @@ export default function Friends() {
         <div>
           <span>{addFriendLink}</span>
         </div>
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(addFriendLink);
-            toast.success("Link copied to clipboard.");
-          }}
-        >
+        <button onClick={copyLink}>
           <i className="fas fa-copy"></i>
         </button>
       </div>
