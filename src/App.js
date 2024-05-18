@@ -19,6 +19,7 @@ import ResetPassword from "./pages/ResetPassword";
 import CancelReset from "./components/CancelReset";
 import Friends from "./pages/Friends";
 import AddFriend from "./pages/addFriend";
+import NavigateWithRedirect from "./components/NavigateWithRedirect";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -52,25 +53,47 @@ function App() {
           <Routes>
             <Route
               path="/login"
-              element={!user ? <Login type="login" /> : <Navigate to="/" />}
+              element={
+                !user ? <Login type="login" /> : <NavigateWithRedirect to="/" />
+              }
             />
             <Route
               path="/signup"
-              element={!user ? <Login type="signup" /> : <Navigate to="/" />}
+              element={
+                !user ? (
+                  <Login type="signup" />
+                ) : (
+                  <NavigateWithRedirect to="/" />
+                )
+              }
             />
             <Route
               path="/forgot-password"
-              element={!user ? <ForgotPassword /> : <Navigate to="/" />}
+              element={
+                !user ? <ForgotPassword /> : <NavigateWithRedirect to="/" />
+              }
             />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/cancel-reset" element={<CancelReset />} />
             <Route
               path="/transactions/edit/:id"
-              element={user ? <Editor type="edit" /> : <Navigate to="/login" />}
+              element={
+                user ? (
+                  <Editor type="edit" />
+                ) : (
+                  <NavigateWithRedirect to="/login" />
+                )
+              }
             />
             <Route
               path="/transactions/new"
-              element={user ? <Editor type="new" /> : <Navigate to="/login" />}
+              element={
+                user ? (
+                  <Editor type="new" />
+                ) : (
+                  <NavigateWithRedirect to="/login" />
+                )
+              }
             />
             {/* <Route
                 path="/profile"
@@ -78,15 +101,21 @@ function App() {
               /> */}
             <Route
               path="/transactions"
-              element={user ? <Transactions /> : <Navigate to="/login" />}
+              element={
+                user ? <Transactions /> : <NavigateWithRedirect to="/login" />
+              }
             />
             <Route
               path="/friends"
-              element={user ? <Friends /> : <Navigate to="/login" />}
+              element={
+                user ? <Friends /> : <NavigateWithRedirect to="/login" />
+              }
             />
             <Route
               path="/addfriend"
-              element={user ? <AddFriend /> : <Navigate to="/login" />}
+              element={
+                user ? <AddFriend /> : <NavigateWithRedirect to="/login" />
+              }
             />
             <Route path="/" element={<Navigate to="/transactions" />} />
           </Routes>
