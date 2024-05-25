@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import "../css/Navbar.css";
 import logo from "../assets/logo.png";
@@ -6,6 +6,9 @@ import logo from "../assets/logo.png";
 export default function Navbar() {
   const { user, dispatch } = useCoreDataContext();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  console.log(location);
 
   const logout = () => {
     localStorage.removeItem(process.env.REACT_APP_TOKEN);
@@ -28,8 +31,12 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link to="/signup">Sign Up</Link>
-            <Link to="/login">Login</Link>
+            <Link to="/signup" state={location.state}>
+              Sign Up
+            </Link>
+            <Link to="/login" state={location.state}>
+              Login
+            </Link>
           </>
         )}
       </div>
