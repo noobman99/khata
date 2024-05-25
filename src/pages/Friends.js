@@ -8,14 +8,24 @@ export default function Friends() {
   let [type, setType] = useState(1);
   // type 0 = friend requests
   // type 1 = friends
-  let [friends, setFriends] = useState([]);
+  let [friends, setFriends] = useState([[], []]);
   let { dispatch, user, setIsLoading } = useCoreDataContext();
 
   const addFriendLink = `${process.env.REACT_APP_FRONTEND_URL}/addFriend?id=${user.uId}`;
   // const addFriendLink = `https://khata.netlify.app/addFriend?id=USR1234567`;
 
   const removeEntry = (id) => {
-    setFriends((prev) => prev.filter((friend) => friend.uId !== id));
+    setFriends((prev) => {
+      prev[type] = prev[type].filter((friend) => friend.uId !== id);
+      return [...prev];
+    });
+  };
+
+  const addtofriends = (friend) => {
+    setFriends((prev) => {
+      prev[1].push(friend);
+      return [...prev];
+    });
   };
 
   console.log("friendsss");
@@ -71,55 +81,80 @@ export default function Friends() {
 
   useEffect(() => {
     // fetch friends
-    setIsLoading(false);
+
+    setIsLoading(true);
 
     let url = process.env.REACT_APP_BACKEND + "/profile";
     let ignore = false;
 
-    setFriends([]);
+    async function fetchFriends() {
+      try {
+        let res = await fetch(url + "/friends", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user.autoken}`,
+          },
+        });
 
-    if (type) {
-      url += "/friends";
-    } else {
-      url += "/friendrequests";
-    }
-
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${user.autoken}`,
-      },
-    })
-      .then((res) => {
         if (ignore) return;
         if (res.ok) {
-          res.json().then((data) => {
-            setFriends(data);
+          let data = await res.json();
+          setFriends((prev) => {
+            prev[1] = data;
+            return [...prev];
           });
         } else if (res.status === 800 || res.status === 801) {
-          res.json().then((res_data) => {
-            toast.error(res_data.error + " Please login again.");
-            localStorage.removeItem(process.env.REACT_APP_TOKEN);
-            dispatch({ type: "Clear_Data" });
-          });
+          let data = await res.json();
+          toast.error(data.error + " Please login again.");
+          localStorage.removeItem(process.env.REACT_APP_TOKEN);
+          dispatch({ type: "Clear_Data" });
         } else if (res.status === 403) {
           toast.error("Please login to perform this operation.");
         } else {
-          res.json().then((res_data) => {
-            toast.error(res_data.error);
-          });
+          let data = await res.json();
+          toast.error(data.error);
         }
-      })
-      .catch((err) => {
-        if (ignore) return;
+      } catch (err) {
         console.error(err);
         toast.error("Please check your internet connection.");
-      });
+      }
 
-    return () => {
-      ignore = true;
-    };
-  }, [type]);
+      try {
+        let res = await fetch(url + "/friendrequests", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user.autoken}`,
+          },
+        });
+
+        if (ignore) return;
+        if (res.ok) {
+          let data = await res.json();
+          setFriends((prev) => {
+            prev[0] = data;
+            return [...prev];
+          });
+        } else if (res.status === 800 || res.status === 801) {
+          let data = await res.json();
+          toast.error(data.error + " Please login again.");
+          localStorage.removeItem(process.env.REACT_APP_TOKEN);
+          dispatch({ type: "Clear_Data" });
+        } else if (res.status === 403) {
+          toast.error("Please login to perform this operation.");
+        } else {
+          let data = await res.json();
+          toast.error(data.error);
+        }
+      } catch (err) {
+        console.error(err);
+        toast.error("Please check your internet connection.");
+      }
+    }
+
+    fetchFriends().then(() => {
+      setIsLoading(false);
+    });
+  }, []);
 
   return (
     <div className="friends-page">
@@ -156,12 +191,13 @@ export default function Friends() {
         </button>
       </div>
       <div className="friends-list">
-        {friends.map((friend) => (
+        {friends[type].map((friend) => (
           <Friend
             key={friend.uId}
             data={friend}
             type={type}
             removeEntry={removeEntry}
+            addtofriends={addtofriends}
           />
         ))}
       </div>

@@ -3,7 +3,7 @@ import "../css/Friend.css";
 import useCoreDataContext from "../Hooks/useCoreDataContext";
 import { toast } from "react-toastify";
 
-export default function Friend({ type, data, removeEntry }) {
+export default function Friend({ type, data, removeEntry, addtofriends }) {
   let [loading, setLoading] = useState(false);
   let [isAccepting, setIsAccepting] = useState(false);
   let { dispatch, user } = useCoreDataContext();
@@ -75,6 +75,7 @@ export default function Friend({ type, data, removeEntry }) {
         if (res.ok) {
           toast.success("Friend request accepted.");
           removeEntry(data.uId);
+          addtofriends(data);
         } else if (res.status === 800 || res.status === 801) {
           res.json().then((res_data) => {
             toast.error(res_data.error + " Please login again.");
