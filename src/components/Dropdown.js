@@ -42,6 +42,7 @@ export default function Dropdown(props) {
           onBlur={focusOut}
           ref={inputRef}
           onChange={handleInput}
+          placeholder={props.label}
           required
         />
         {!newEntry && (
