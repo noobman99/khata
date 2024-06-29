@@ -43,6 +43,10 @@
   background-color: rgb(199, 73, 73);
   filter: brightness(1.2) contrast(1.1);
 }
+.choice-box a.borrowing {
+  background-color: rgb(73, 73, 199);
+  filter: brightness(1.2) contrast(1.1);
+}
 .choice-box a:hover {
   filter: brightness(1.4) contrast(1.2);
 }

@@ -20,6 +20,7 @@ import CancelReset from "./components/CancelReset";
 import Friends from "./pages/Friends";
 import AddFriend from "./pages/addFriend";
 import NavigateWithRedirect from "./components/NavigateWithRedirect";
+import Borrowing from "./pages/Borrowing";
 // import Profile from "./pages/Profile";
 
 function App() {
@@ -90,6 +91,16 @@ function App() {
               element={
                 user ? (
                   <Editor type="new" />
+                ) : (
+                  <NavigateWithRedirect to="/login" />
+                )
+              }
+            />
+            <Route
+              path="/borrowing"
+              element={
+                user ? (
+                  <Borrowing type="new" />
                 ) : (
                   <NavigateWithRedirect to="/login" />
                 )

@@ -11,6 +11,9 @@ export default function ChoiceBox() {
       <Link to="/transactions/new?type=expense" className="expense">
         Expense
       </Link>
+      <Link to="/borrowing" className="borrowing">
+        Borrowing
+      </Link>
     </div>
   );
 }

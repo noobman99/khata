@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
 
-export default function Dropdown(props) {
-  const onClick = (e) => {
-    props.onChange(e.target.textContent);
+export default function SearchDropdown(props) {
+  const onClick = (value) => {
+    props.onChange(value);
   };
 
   const inputRef = useRef(null);
-  const [search, setSearch] = useState();
+  const [search, setSearch] = useState("");
   const [isFocused, setIsFocused] = useState();
 
   const handleInputFocus = () => {
@@ -33,9 +33,8 @@ export default function Dropdown(props) {
         <input
           type="text"
           name={props.name}
-          value={isFocused ? search : props.data}
+          value={isFocused ? search : props.data.display}
           autoComplete="off"
-          readOnly={true}
           ref={inputRef}
           onChange={handleInput}
           onFocus={handleInputFocus}
@@ -48,19 +47,22 @@ export default function Dropdown(props) {
         <ul className={"dropdown__list"}>
           {props.list
             .filter((val) => {
-              val.toLowerCase().includes(search.toLowerCase());
+              if (search === "") {
+                return true;
+              }
+              return val.display.toLowerCase().includes(search.toLowerCase());
             })
             .map((val, key) => {
               return (
                 <li
                   className={
                     "dropdown__list-item" +
-                    (val === props.data ? " selected" : "")
+                    (val.display === props.data ? " selected" : "")
                   }
                   key={key}
-                  onClick={onClick}
+                  onClick={() => onClick(val)}
                 >
-                  {val}
+                  {val.display}
                 </li>
               );
             })}
